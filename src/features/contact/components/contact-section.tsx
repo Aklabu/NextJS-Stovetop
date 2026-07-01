@@ -15,9 +15,8 @@ export default function ContactSection() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('sending')
-    // Replace with your real submission logic / API route
     try {
-      await new Promise((res) => setTimeout(res, 1000)) // simulate request
+      await new Promise((res) => setTimeout(res, 1000))
       setStatus('sent')
       setForm({ name: '', email: '', message: '' })
     } catch {
@@ -28,136 +27,149 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="w-full bg-white py-16 px-4"
+      className="w-full bg-black text-white py-16 px-4"
       aria-labelledby="contact-heading"
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+
         {/* Heading */}
-        <h2
-          id="contact-heading"
-          className="text-3xl font-bold text-gray-900 text-center mb-10"
-        >
-          Contact Us
-        </h2>
+        <div className="text-center mb-12">
+          <h2
+            id="contact-heading"
+            className="text-4xl sm:text-5xl font-extrabold mb-4"
+          >
+            Contact Us
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
+            Get in touch with the pulse of the nightlife. Whether you&apos;re
+            looking for professional DJ services, partnerships, or radio
+            inquiries, our team is ready to amplify your vision.
+          </p>
+        </div>
 
         {/* Map + Form */}
-        <div className="flex flex-col md:flex-row gap-8 mb-10">
-          {/* Map embed */}
-          <div className="w-full md:w-1/2 rounded-xl overflow-hidden min-h-[300px] bg-gray-100">
+        <div className="flex flex-col md:flex-row gap-6 mb-14">
+
+          {/* Map */}
+          <div className="w-full md:w-1/2 rounded-2xl overflow-hidden min-h-[400px] bg-zinc-900">
             <iframe
-              title="Stovetop Radio location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3465.123456789!2d-95.3698!3d29.7604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDQ1JzM3LjQiTiA5NcKwMjInMTEuMyJX!5e0!3m2!1sen!2sus!4v1234567890"
+              title="Stovetop Radio location — Columbia, SC"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106465.42812345678!2d-81.09983!3d34.00071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f8a1000d6b7d8d%3A0x8a13e3c7fe5da65!2sColumbia%2C%20SC%2C%20USA!5e0!3m2!1sen!2sus!4v1700000000000"
               width="100%"
               height="100%"
-              style={{ border: 0, minHeight: '300px' }}
+              style={{ border: 0, minHeight: '400px' }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
 
-          {/* Contact form */}
-          <form
-            onSubmit={handleSubmit}
-            className="w-full md:w-1/2 flex flex-col gap-4"
-            noValidate
-          >
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                placeholder="Name"
-                value={form.name}
-                onChange={handleChange}
-                className="w-full bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f05252]"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                placeholder="Email address"
-                value={form.email}
-                onChange={handleChange}
-                className="w-full bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f05252]"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="sr-only">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={5}
-                placeholder="Message"
-                value={form.message}
-                onChange={handleChange}
-                className="w-full bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f05252] resize-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={status === 'sending'}
-              className="w-full bg-[#f05252] hover:bg-[#e03e3e] disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors"
+          {/* Form card */}
+          <div className="w-full md:w-1/2 bg-[#1a1a2e] rounded-2xl p-6 flex flex-col gap-5">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-5 h-full"
+              noValidate
             >
-              {status === 'sending' ? 'Sending…' : 'Send now'}
-            </button>
+              {/* Name */}
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="name" className="text-sm text-gray-300 font-medium">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="Your full name"
+                  value={form.name}
+                  onChange={handleChange}
+                  className="w-full bg-[#0d0d1a] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
 
-            {status === 'sent' && (
-              <p className="text-sm text-green-600 text-center" role="status">
-                Message sent! We'll be in touch soon.
-              </p>
-            )}
-            {status === 'error' && (
-              <p className="text-sm text-red-500 text-center" role="alert">
-                Something went wrong. Please try again.
-              </p>
-            )}
-          </form>
+              {/* Email */}
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="email" className="text-sm text-gray-300 font-medium">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="email@example.com"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full bg-[#0d0d1a] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+
+              {/* Message */}
+              <div className="flex flex-col gap-1.5 flex-1">
+                <label htmlFor="message" className="text-sm text-gray-300 font-medium">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="How can we help you?"
+                  value={form.message}
+                  onChange={handleChange}
+                  className="w-full flex-1 bg-[#0d0d1a] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                />
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={status === 'sending'}
+                className="w-full py-3 rounded-xl font-bold text-black bg-gradient-to-r from-purple-400 to-cyan-400 hover:opacity-90 disabled:opacity-60 transition-opacity"
+              >
+                {status === 'sending' ? 'Sending…' : 'Send now'}
+              </button>
+
+              {status === 'sent' && (
+                <p className="text-sm text-green-400 text-center" role="status">
+                  Message sent! We&apos;ll be in touch soon.
+                </p>
+              )}
+              {status === 'error' && (
+                <p className="text-sm text-red-400 text-center" role="alert">
+                  Something went wrong. Please try again.
+                </p>
+              )}
+            </form>
+          </div>
         </div>
 
         {/* Info cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-gray-100 pt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {/* Call */}
-          <div className="flex items-start gap-3">
-            <span className="text-[#f05252] mt-0.5" aria-hidden="true">
+          <div className="flex items-center gap-4">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-[#1a1a2e] flex items-center justify-center text-purple-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6.06 6.06l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z" />
-                {/* ring arc */}
-                <path d="M14.5 3.5a9 9 0 0 1 6 6" opacity=".5" />
-                <path d="M14.5 7.5a5 5 0 0 1 2 2" opacity=".5" />
               </svg>
-            </span>
+            </div>
             <div>
-              <p className="font-semibold text-gray-800 text-sm">Call</p>
+              <p className="font-semibold text-white text-sm">Call</p>
               <a
-                href="tel:stovetopradio"
-                className="text-gray-500 text-sm hover:text-[#f05252] transition-colors"
+                href="mailto:stovetopradio@gmail.com"
+                className="text-gray-400 text-sm hover:text-purple-400 transition-colors"
               >
                 stovetopradio@gmail.com
               </a>
@@ -165,28 +177,29 @@ export default function ContactSection() {
           </div>
 
           {/* Email */}
-          <div className="flex items-start gap-3">
-            <span className="text-[#f05252] mt-0.5" aria-hidden="true">
+          <div className="flex items-center gap-4">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-[#1a1a2e] flex items-center justify-center text-purple-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <rect width="20" height="16" x="2" y="4" rx="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
-            </span>
+            </div>
             <div>
-              <p className="font-semibold text-gray-800 text-sm">Email</p>
+              <p className="font-semibold text-white text-sm">Email</p>
               <a
                 href="mailto:stovetopradio@gmail.com"
-                className="text-gray-500 text-sm hover:text-[#f05252] transition-colors"
+                className="text-gray-400 text-sm hover:text-purple-400 transition-colors"
               >
                 stovetopradio@gmail.com
               </a>
@@ -194,29 +207,31 @@ export default function ContactSection() {
           </div>
 
           {/* Location */}
-          <div className="flex items-start gap-3">
-            <span className="text-[#f05252] mt-0.5" aria-hidden="true">
+          <div className="flex items-center gap-4">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-[#1a1a2e] flex items-center justify-center text-purple-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-            </span>
+            </div>
             <div>
-              <p className="font-semibold text-gray-800 text-sm">Location</p>
-              <p className="text-gray-500 text-sm">Columbia, USA</p>
+              <p className="font-semibold text-white text-sm">Location</p>
+              <p className="text-gray-400 text-sm">Columbia, USA</p>
             </div>
           </div>
         </div>
+
       </div>
     </section>
   )
