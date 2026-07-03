@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <header className="w-full bg-[#0d1117] border-b border-white/10">
       <nav
-        className="max-w-screen-xl mx-auto px-6 h-16 flex items-center gap-8"
+        className="max-w-screen-xl mx-auto px-6 h-20 flex items-center gap-8"
         aria-label="Main navigation"
       >
         {/* Logo */}
@@ -81,28 +81,30 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* User / account icon */}
+        {/* Download app button */}
         <button
           type="button"
-          aria-label="Account"
-          className="shrink-0 text-gray-400 hover:text-white transition-colors"
+          aria-label="Download the app"
+          title="Download the app"
+          className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 text-gray-300 hover:text-white hover:border-white/40 transition-colors text-sm font-medium"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="9" r="3" />
-            <path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.832 2.849" />
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
+          Download
         </button>
       </nav>
     </header>
