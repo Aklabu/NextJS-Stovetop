@@ -1,5 +1,10 @@
-import { redirect } from 'next/navigation'
+import HomePage from '@/features/home/HomePage'
 
-export default function Home() {
-  redirect('/radio')
+export const metadata = {
+  title: 'Stovetop Radio | Your Sound, Elevated',
+  description: 'Premium DJ services, live sound engineering, and curated playlists from Stovetop Radio.',
+}
+
+export default function Page() {
+  return <HomePage />
 }
