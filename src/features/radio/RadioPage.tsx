@@ -1,6 +1,5 @@
 import {
   trendingPlaylists,
-  recentlyAdded,
   genreTags,
   topDJs,
   topDJMixes,
@@ -9,16 +8,36 @@ import {
   additionalSections,
   nowPlaying,
 } from './mockData'
+import { getRecentMusic, getImageUrl } from '@/lib/api'
+import { MediaItem } from './types'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import PlayerBar from './components/PlayerBar'
 import Section from './components/Section'
 import DJCard from './components/DJCard'
 import GenreTile from './components/GenreTile'
-import MediaCard from './components/MediaCard'
 import { ChevronRight } from 'lucide-react'
 
-export default function RadioPage() {
+export default async function RadioPage() {
+  // Fetch real recently added tracks from the API
+  const recentTracks = await getRecentMusic()
+
+  const recentlyAdded: MediaItem[] = recentTracks.length > 0
+    ? recentTracks.map((track) => ({
+        id: track.id,
+        title: track.name,
+        subtitle: track.dj_name,
+        image: getImageUrl(track.image),
+        gradient: 'from-zinc-700 to-zinc-900',
+      }))
+    : [
+        { id: 'ra1', title: 'New Wave Mix', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'ra2', title: 'City Nights', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'ra3', title: 'Solar Flare', gradient: 'from-amber-800 to-zinc-900' },
+        { id: 'ra4', title: 'Underground Beats', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'ra5', title: 'Dawn Chaser', gradient: 'from-zinc-600 to-zinc-900' },
+      ]
+
   return (
     <div className="flex bg-zinc-950 text-white min-h-screen">
       <Sidebar />
@@ -65,8 +84,13 @@ export default function RadioPage() {
             </div>
           </section>
 
-          {/* Recently Added */}
-          <Section title="Recently Added" items={recentlyAdded} />
+          {/* Recently Added — live from API, first 5 only */}
+          <Section
+            title="Recently Added"
+            eyebrow="Just Dropped"
+            items={recentlyAdded.slice(0, 5)}
+            seeAllHref="/radio/recently-added"
+          />
 
           {/* Top DJ Mixes */}
           <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} />

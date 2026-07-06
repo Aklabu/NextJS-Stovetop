@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { MediaItem } from '../types'
 import MediaCard from './MediaCard'
@@ -6,10 +7,12 @@ export default function Section({
   title,
   items,
   eyebrow,
+  seeAllHref,
 }: {
   title: string
   items: MediaItem[]
   eyebrow?: string
+  seeAllHref?: string
 }) {
   return (
     <section className="mb-10">
@@ -22,9 +25,18 @@ export default function Section({
           )}
           <h3 className="text-lg font-bold text-white">{title}</h3>
         </div>
-        <button className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors">
-          See All <ChevronRight className="w-4 h-4" />
-        </button>
+        {seeAllHref ? (
+          <Link
+            href={seeAllHref}
+            className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors"
+          >
+            See All <ChevronRight className="w-4 h-4" />
+          </Link>
+        ) : (
+          <button className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors">
+            See All <ChevronRight className="w-4 h-4" />
+          </button>
+        )}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
         {items.map((item) => (
