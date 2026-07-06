@@ -1,15 +1,15 @@
 import {
   trendingPlaylists,
   genreTags,
-  topDJs,
   topDJMixes,
   mashups,
   throwback,
   additionalSections,
   nowPlaying,
 } from './mockData'
-import { getRecentMusic, getImageUrl } from '@/lib/api'
-import { MediaItem } from './types'
+import { getRecentMusic, getTopDJs, getImageUrl } from '@/lib/api'
+import { MediaItem, DJ } from './types'
+import Link from 'next/link'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import PlayerBar from './components/PlayerBar'
@@ -19,8 +19,11 @@ import GenreTile from './components/GenreTile'
 import { ChevronRight } from 'lucide-react'
 
 export default async function RadioPage() {
-  // Fetch real recently added tracks from the API
-  const recentTracks = await getRecentMusic()
+  // Fetch real data from API in parallel
+  const [recentTracks, topDJsData] = await Promise.all([
+    getRecentMusic(),
+    getTopDJs(),
+  ])
 
   const recentlyAdded: MediaItem[] = recentTracks.length > 0
     ? recentTracks.map((track) => ({
@@ -36,6 +39,22 @@ export default async function RadioPage() {
         { id: 'ra3', title: 'Solar Flare', gradient: 'from-amber-800 to-zinc-900' },
         { id: 'ra4', title: 'Underground Beats', gradient: 'from-zinc-700 to-zinc-900' },
         { id: 'ra5', title: 'Dawn Chaser', gradient: 'from-zinc-600 to-zinc-900' },
+      ]
+
+  const topDJs: DJ[] = topDJsData.length > 0
+    ? topDJsData.map((dj) => ({
+        id: dj.id,
+        name: dj.name,
+        role: `${dj.total_play_count.toLocaleString()} plays`,
+        image: getImageUrl(dj.image),
+        gradient: 'from-cyan-700 to-blue-900',
+      }))
+    : [
+        { id: 'dj1', name: 'Stovetop Tino', role: 'House Specialist', gradient: 'from-cyan-700 to-blue-900' },
+        { id: 'dj2', name: 'DJ Ty Boogie', role: 'Techno King', gradient: 'from-yellow-700 to-amber-900' },
+        { id: 'dj3', name: 'Mista Rello', role: 'Reggae Expert', gradient: 'from-zinc-600 to-zinc-800' },
+        { id: 'dj4', name: 'DJ Dat Dat Dat', role: 'Hip Hop Guru', gradient: 'from-red-700 to-black' },
+        { id: 'dj5', name: 'Blue Note', role: 'Jazz Fusion', gradient: 'from-zinc-700 to-zinc-900' },
       ]
 
   return (
@@ -69,13 +88,16 @@ export default async function RadioPage() {
             </div>
           </section>
 
-          {/* Top DJs */}
+          {/* Top DJs — live from API */}
           <section className="mb-10">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white">Top DJs</h3>
-              <button className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors">
+              <Link
+                href="/radio/djs"
+                className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors"
+              >
                 See All <ChevronRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {topDJs.map((dj) => (
