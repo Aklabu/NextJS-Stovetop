@@ -53,8 +53,8 @@ export default function ContactSection() {
           {/* Map */}
           <div className="w-full md:w-1/2 rounded-2xl overflow-hidden min-h-[400px] bg-zinc-900">
             <iframe
-              title="Stovetop Radio location — Columbia, SC"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106465.42812345678!2d-81.09983!3d34.00071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f8a1000d6b7d8d%3A0x8a13e3c7fe5da65!2sColumbia%2C%20SC%2C%20USA!5e0!3m2!1sen!2sus!4v1700000000000"
+              title="Stovetop Radio location — Columbia, MO"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2945.123!2d-92.3276361!3d38.9754665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87dcc83b51cab4d5%3A0x45eba5052b20285b!2s2407%20Rangeline%20St%20Ste%20A%2C%20Columbia%2C%20MO%2065202%2C%20USA!5e0!3m2!1sen!2sus!4v1700000000000"
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: '400px' }}
@@ -168,10 +168,10 @@ export default function ContactSection() {
             <div>
               <p className="font-semibold text-white text-sm">Call</p>
               <a
-                href="mailto:stovetopradio@gmail.com"
+                href="tel:+15734855075"
                 className="text-gray-400 text-sm hover:text-purple-400 transition-colors"
               >
-                stovetopradio@gmail.com
+                +1 (573) 485-5075
               </a>
             </div>
           </div>
@@ -227,7 +227,15 @@ export default function ContactSection() {
             </div>
             <div>
               <p className="font-semibold text-white text-sm">Location</p>
-              <p className="text-gray-400 text-sm">Columbia, USA</p>
+              <a
+                href="https://www.google.com/maps/place/2407+Rangeline+St+Ste+A,+Columbia,+MO+65202,+USA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 text-sm hover:text-purple-400 transition-colors"
+              >
+                2407 Rangeline St Ste A<br />
+                Columbia, MO 65202
+              </a>
             </div>
           </div>
         </div>
