@@ -20,7 +20,7 @@ export default async function RecentlyAddedPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {tracks.map((track) => (
-          <div key={track.id} className="group cursor-pointer">
+          <Link key={track.id} href={`/radio/music/${track.id}`} className="group block">
             <div className="aspect-square rounded-xl overflow-hidden relative bg-zinc-800 shadow-lg group-hover:scale-[1.02] transition-transform duration-200 mb-2">
               {track.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -35,7 +35,7 @@ export default async function RecentlyAddedPage() {
             <p className="text-sm font-semibold text-zinc-100 truncate">{track.name}</p>
             <p className="text-xs text-zinc-500 truncate">{track.dj_name}</p>
             <p className="text-xs text-fuchsia-400 mt-0.5 truncate">{track.genre_names}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

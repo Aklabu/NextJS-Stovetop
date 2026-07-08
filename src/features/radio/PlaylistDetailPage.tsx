@@ -60,7 +60,7 @@ export default async function PlaylistDetailPage({ id }: PlaylistDetailPageProps
             <h2 className="text-lg font-bold text-white mb-6">All Songs</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
               {tracks.map((track) => (
-                <div key={track.id} className="group cursor-pointer">
+                <Link key={track.id} href={`/radio/music/${track.id}`} className="group block">
                   <div className="aspect-square rounded-xl overflow-hidden relative bg-zinc-800 shadow-lg group-hover:scale-[1.02] transition-transform duration-200 mb-2">
                     {track.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -75,7 +75,7 @@ export default async function PlaylistDetailPage({ id }: PlaylistDetailPageProps
                   <p className="text-sm font-semibold text-zinc-100 truncate">{track.name}</p>
                   <p className="text-xs text-zinc-500 truncate">{track.dj_name}</p>
                   <p className="text-xs text-fuchsia-400 mt-0.5 truncate uppercase tracking-wide">{track.genre_names}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -87,7 +87,7 @@ export default async function PlaylistDetailPage({ id }: PlaylistDetailPageProps
             <h2 className="text-lg font-bold text-white mb-4">Top Songs</h2>
             <div className="flex flex-col divide-y divide-zinc-800">
               {topSongs.map((track, idx) => (
-                <div key={track.id} className="flex items-center gap-4 py-3 group cursor-pointer hover:bg-zinc-900/50 rounded-lg px-2 transition-colors">
+                <Link key={track.id} href={`/radio/music/${track.id}`} className="flex items-center gap-4 py-3 group hover:bg-zinc-900/50 rounded-lg px-2 transition-colors">
                   <span className="w-6 text-center text-sm text-zinc-600 font-semibold shrink-0">{idx + 1}</span>
                   <div className="w-10 h-10 rounded-lg overflow-hidden bg-zinc-800 shrink-0">
                     {track.image ? (
@@ -103,7 +103,7 @@ export default async function PlaylistDetailPage({ id }: PlaylistDetailPageProps
                   </div>
                   <span className="text-xs text-fuchsia-400 uppercase tracking-wide shrink-0 hidden sm:block">{track.genre_names}</span>
                   <span className="text-xs text-zinc-600 shrink-0">{track.play_count.toLocaleString()} plays</span>
-                </div>
+                </Link>
               ))}
             </div>
           </section>

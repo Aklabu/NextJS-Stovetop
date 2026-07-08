@@ -125,6 +125,19 @@ export interface ApiAdminPlaylist {
   created_at: string
 }
 
+export interface ApiMusicDetail {
+  id: string
+  name: string
+  dj: ApiDJ
+  dj_mix: ApiDJMix | null
+  genres: ApiGenre[]
+  image: string
+  audio_file: string
+  music_type: string
+  play_count: number
+  created_at: string
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 export function getImageUrl(path: string): string {
@@ -301,5 +314,25 @@ export async function getAdminPlaylists(): Promise<ApiAdminPlaylist[]> {
     return json?.data ?? []
   } catch {
     return []
+  }
+}
+
+export async function getMusicDetail(id: string): Promise<ApiMusicDetail | null> {
+  try {
+    const { data: json } = await apiClient.get(`/api/music/${id}/`, {
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    return json?.data ?? null
+  } catch {
+    return null
+  }
+}
+
+export async function incrementPlayCount(id: string): Promise<void> {
+  try {
+    await apiClient.post(`/api/music/${id}/play/`)
+  } catch {
+    // fire-and-forget — don't surface errors to the user
   }
 }

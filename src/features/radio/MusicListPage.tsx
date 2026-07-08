@@ -118,7 +118,7 @@ export default function MusicListPage({
         {tracks.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
             {tracks.map((track) => (
-              <div key={track.id} className="group cursor-pointer">
+              <Link key={track.id} href={`/radio/music/${track.id}`} className="group block">
                 <div className="aspect-square rounded-xl overflow-hidden relative bg-zinc-800 shadow-lg group-hover:scale-[1.02] transition-transform duration-200 mb-2">
                   {track.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -142,7 +142,7 @@ export default function MusicListPage({
                 <p className="text-xs text-fuchsia-400 mt-0.5 truncate uppercase tracking-wide">
                   {track.genre_names}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (

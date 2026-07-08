@@ -2,14 +2,12 @@ import {
   mashups,
   throwback,
   additionalSections,
-  nowPlaying,
 } from './mockData'
 import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getAdminPlaylists, getImageUrl } from './api'
 import { MediaItem, DJ } from './types'
 import Link from 'next/link'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
-import PlayerBar from './components/PlayerBar'
 import Section from './components/Section'
 import DJCard from './components/DJCard'
 import GenreTile from './components/GenreTile'
@@ -96,7 +94,7 @@ export default async function RadioPage() {
       <Sidebar />
 
       {/* Main scroll area */}
-      <div className="flex-1 overflow-y-auto pb-28">
+      <div className="flex-1 overflow-y-auto">
         <div className="px-6 py-8 max-w-7xl mx-auto">
           <TopBar />
 
@@ -175,7 +173,7 @@ export default async function RadioPage() {
       </div>
 
       {/* Sticky player */}
-      <PlayerBar track={nowPlaying} />
+      {/* PlayerBar removed */}
     </div>
   )
 }
