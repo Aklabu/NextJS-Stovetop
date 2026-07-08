@@ -1,11 +1,10 @@
 import {
-  trendingPlaylists,
   mashups,
   throwback,
   additionalSections,
   nowPlaying,
 } from './mockData'
-import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getImageUrl } from './api'
+import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getAdminPlaylists, getImageUrl } from './api'
 import { MediaItem, DJ } from './types'
 import Link from 'next/link'
 import Sidebar from './components/Sidebar'
@@ -18,12 +17,30 @@ import { ChevronRight } from 'lucide-react'
 
 export default async function RadioPage() {
   // Fetch real data from API in parallel
-  const [recentTracks, topDJsData, topMixesData, genresData] = await Promise.all([
+  const [recentTracks, topDJsData, topMixesData, genresData, playlistsData] = await Promise.all([
     getRecentMusic(),
     getTopDJs(),
     getTopDJMixes(),
     getGenres(),
+    getAdminPlaylists(),
   ])
+
+  const trendingPlaylists: MediaItem[] = playlistsData.length > 0
+    ? playlistsData.map((pl) => ({
+        id: pl.id,
+        title: pl.name,
+        subtitle: `${pl.music_count} song${pl.music_count !== 1 ? 's' : ''}`,
+        image: getImageUrl(pl.image),
+        gradient: 'from-violet-700 to-purple-900',
+        href: `/radio/playlists/${pl.id}`,
+      }))
+    : [
+        { id: 'tp1', title: 'Sonic Nights', subtitle: 'Stovetop DJs', gradient: 'from-amber-700 via-yellow-600 to-amber-900' },
+        { id: 'tp2', title: 'Studio Sessions', subtitle: 'DJ Ty Boogie', gradient: 'from-zinc-700 via-zinc-800 to-black' },
+        { id: 'tp3', title: 'Electric Pulse', subtitle: 'DJ Dat Dat Dat', gradient: 'from-blue-900 via-slate-800 to-black' },
+        { id: 'tp4', title: 'Neon Jazz', subtitle: 'Blue Note', gradient: 'from-rose-800 via-fuchsia-900 to-black' },
+        { id: 'tp5', title: 'Midnight Drive', subtitle: 'Deep House', gradient: 'from-zinc-800 via-zinc-900 to-black' },
+      ]
 
   const recentlyAdded: MediaItem[] = recentTracks.length > 0
     ? recentTracks.map((track) => ({
@@ -64,6 +81,7 @@ export default async function RadioPage() {
         subtitle: mix.dj_names,
         image: getImageUrl(mix.image),
         gradient: 'from-zinc-700 to-zinc-900',
+        href: `/radio/dj-mixes/${mix.id}`,
       }))
     : [
         { id: 'mx1', title: 'Ultimate Groove Vol. 1', subtitle: 'Stovetop DJs', gradient: 'from-zinc-700 to-zinc-900' },
@@ -82,7 +100,7 @@ export default async function RadioPage() {
         <div className="px-6 py-8 max-w-7xl mx-auto">
           <TopBar />
 
-          {/* Trending Playlists */}
+          {/* Trending Playlists — live from API */}
           <Section
             title="Trending Playlists"
             eyebrow="Hot Right Now"
@@ -141,7 +159,7 @@ export default async function RadioPage() {
           />
 
           {/* Top DJ Mixes — live from API */}
-          <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} seeAllHref="/radio/music" />
+          <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} seeAllHref="/radio/dj-mixes" />
 
           {/* Mashups */}
           <Section title="Mashups" items={mashups} />

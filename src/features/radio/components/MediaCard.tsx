@@ -1,8 +1,9 @@
+import Link from 'next/link'
 import { MediaItem } from '../types'
 
 export default function MediaCard({ item }: { item: MediaItem }) {
-  return (
-    <div className="group cursor-pointer">
+  const inner = (
+    <>
       <div
         className={`aspect-square rounded-xl overflow-hidden relative shadow-lg group-hover:scale-[1.02] transition-transform duration-200 ${
           item.image ? '' : `bg-gradient-to-br ${item.gradient}`
@@ -21,6 +22,16 @@ export default function MediaCard({ item }: { item: MediaItem }) {
       {item.subtitle && (
         <p className="text-xs text-zinc-500 truncate">{item.subtitle}</p>
       )}
-    </div>
+    </>
   )
+
+  if (item.href) {
+    return (
+      <Link href={item.href} className="group cursor-pointer block">
+        {inner}
+      </Link>
+    )
+  }
+
+  return <div className="group cursor-pointer">{inner}</div>
 }

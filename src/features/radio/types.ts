@@ -4,6 +4,7 @@ export interface MediaItem {
   subtitle?: string
   image?: string
   gradient?: string
+  href?: string
 }
 
 export interface DJ {

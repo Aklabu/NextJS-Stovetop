@@ -37,6 +37,28 @@ export interface ApiDJMix {
   total_play_count: number
 }
 
+export interface DJMixesResponse {
+  count: number
+  next: string | null
+  previous: string | null
+  data: ApiDJMix[]
+}
+
+export interface ApiDJMixDetail {
+  id: string
+  name: string
+  image: string
+  total_play_count: number
+  music_count: number
+  djs: ApiDJ[]
+  music: {
+    count: number
+    next: string | null
+    previous: string | null
+    results: ApiMusic[]
+  }
+}
+
 export interface ApiGenre {
   id: string
   name: string
@@ -82,6 +104,25 @@ export interface MusicListResponse {
   next: string | null
   previous: string | null
   data: ApiMusic[]
+}
+
+export interface ApiPlaylistMusic {
+  id: number
+  music: ApiMusic
+  order: number
+  added_at: string
+}
+
+export interface ApiAdminPlaylist {
+  id: string
+  name: string
+  image: string
+  description: string
+  created_by_name: string
+  music_count: number
+  music_list: ApiPlaylistMusic[]
+  top_songs: ApiPlaylistMusic[]
+  created_at: string
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -150,6 +191,42 @@ export async function getTopDJMixes(): Promise<ApiDJMix[]> {
   }
 }
 
+export async function getAllDJMixes(page = 1, pageSize = 20): Promise<DJMixesResponse> {
+  try {
+    const { data: json } = await apiClient.get('/api/music/dj-mixes/', {
+      params: { page, page_size: pageSize },
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    const data: ApiDJMix[] = json?.results?.data ?? json?.data ?? []
+    return {
+      count: json?.count ?? data.length,
+      next: json?.next ?? null,
+      previous: json?.previous ?? null,
+      data,
+    }
+  } catch {
+    return { count: 0, next: null, previous: null, data: [] }
+  }
+}
+
+export async function getDJMixDetail(
+  id: string,
+  page = 1,
+  pageSize = 20
+): Promise<ApiDJMixDetail | null> {
+  try {
+    const { data: json } = await apiClient.get(`/api/music/dj-mixes/${id}/`, {
+      params: { page, page_size: pageSize },
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    return json?.data ?? null
+  } catch {
+    return null
+  }
+}
+
 export async function getAllMusic(page = 1, pageSize = 20): Promise<MusicListResponse> {
   try {
     const { data: json } = await apiClient.get('/api/music/tracks/', {
@@ -212,5 +289,17 @@ export async function getDJDetail(
     return json?.data ?? null
   } catch {
     return null
+  }
+}
+
+export async function getAdminPlaylists(): Promise<ApiAdminPlaylist[]> {
+  try {
+    const { data: json } = await apiClient.get('/api/playlists/admin/', {
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    return json?.data ?? []
+  } catch {
+    return []
   }
 }
