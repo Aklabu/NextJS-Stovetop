@@ -1,12 +1,15 @@
+import Link from 'next/link'
+
 export interface GenreTileProps {
   title: string
   banner?: string   // real image URL from API
   gradient?: string // fallback gradient
+  href?: string     // optional navigation link
 }
 
-export default function GenreTile({ title, banner, gradient }: GenreTileProps) {
-  return (
-    <div className="aspect-[4/3] rounded-xl overflow-hidden relative flex items-end p-4 cursor-pointer shadow-lg hover:scale-[1.02] transition-transform duration-200">
+export default function GenreTile({ title, banner, gradient, href }: GenreTileProps) {
+  const inner = (
+    <>
       {/* Background: real image or gradient fallback */}
       {banner ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -22,6 +25,19 @@ export default function GenreTile({ title, banner, gradient }: GenreTileProps) {
       <div className="absolute inset-0 bg-black/40" />
       {/* Label */}
       <span className="relative z-10 text-white font-semibold text-sm">{title}</span>
-    </div>
+    </>
   )
+
+  const baseClass =
+    'aspect-[4/3] rounded-xl overflow-hidden relative flex items-end p-4 cursor-pointer shadow-lg hover:scale-[1.02] transition-transform duration-200'
+
+  if (href) {
+    return (
+      <Link href={href} className={baseClass}>
+        {inner}
+      </Link>
+    )
+  }
+
+  return <div className={baseClass}>{inner}</div>
 }

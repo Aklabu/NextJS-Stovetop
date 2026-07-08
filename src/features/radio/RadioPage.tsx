@@ -104,6 +104,7 @@ export default async function RadioPage() {
                       key={genre.id}
                       title={genre.name}
                       banner={getImageUrl(genre.banner)}
+                      href={`/radio/genres/${genre.id}`}
                     />
                   ))
                 : /* fallback static tiles */
@@ -140,7 +141,7 @@ export default async function RadioPage() {
           />
 
           {/* Top DJ Mixes — live from API */}
-          <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} />
+          <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} seeAllHref="/radio/music" />
 
           {/* Mashups */}
           <Section title="Mashups" items={mashups} />

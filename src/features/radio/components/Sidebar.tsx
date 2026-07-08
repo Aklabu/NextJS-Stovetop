@@ -1,14 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Compass, Clock, LayoutGrid, Users, Disc3 } from 'lucide-react'
+import { Search, Compass, Clock, LayoutGrid, Users, Disc3, Music2 } from 'lucide-react'
 
 const navItems = [
   { id: 'explore', label: 'Explore', icon: Compass },
-  { id: 'recent', label: 'Recently Added', icon: Clock },
   { id: 'genre', label: 'Genre', icon: LayoutGrid },
   { id: 'djs', label: 'All DJs', icon: Users },
   { id: 'mixes', label: 'All DJ Mix', icon: Disc3 },
+  { id: 'music', label: 'All Music', icon: Music2 },
+  { id: 'recent', label: 'Recently Added', icon: Clock },
 ]
 
 export default function Sidebar() {
