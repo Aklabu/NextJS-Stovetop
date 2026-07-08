@@ -1,12 +1,11 @@
 import {
   trendingPlaylists,
-  genreTags,
   mashups,
   throwback,
   additionalSections,
   nowPlaying,
 } from './mockData'
-import { getRecentMusic, getTopDJs, getTopDJMixes, getImageUrl } from '@/lib/api'
+import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getImageUrl } from '@/lib/api'
 import { MediaItem, DJ } from './types'
 import Link from 'next/link'
 import Sidebar from './components/Sidebar'
@@ -19,10 +18,11 @@ import { ChevronRight } from 'lucide-react'
 
 export default async function RadioPage() {
   // Fetch real data from API in parallel
-  const [recentTracks, topDJsData, topMixesData] = await Promise.all([
+  const [recentTracks, topDJsData, topMixesData, genresData] = await Promise.all([
     getRecentMusic(),
     getTopDJs(),
     getTopDJMixes(),
+    getGenres(),
   ])
 
   const recentlyAdded: MediaItem[] = recentTracks.length > 0
@@ -89,18 +89,27 @@ export default async function RadioPage() {
             items={trendingPlaylists}
           />
 
-          {/* Genre Tags */}
+          {/* Browse by Genre — live from API */}
           <section className="mb-10">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white">Browse by Genre</h3>
-              <button className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors">
+              {/* <button className="flex items-center gap-1 text-sm text-zinc-400 hover:text-white transition-colors">
                 See All <ChevronRight className="w-4 h-4" />
-              </button>
+              </button> */}
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {genreTags.map((genre) => (
-                <GenreTile key={genre.id} genre={genre} />
-              ))}
+              {genresData.length > 0
+                ? genresData.map((genre) => (
+                    <GenreTile
+                      key={genre.id}
+                      title={genre.name}
+                      banner={getImageUrl(genre.banner)}
+                    />
+                  ))
+                : /* fallback static tiles */
+                  ['House', 'Techno', 'Soul', 'R&B', 'Pop'].map((name) => (
+                    <GenreTile key={name} title={name} gradient="from-violet-700 to-purple-900" />
+                  ))}
             </div>
           </section>
 

@@ -3,6 +3,8 @@ const BASE_URL = 'https://stovetopmusic.com'
 // Always fetch fresh — no caching so backend changes reflect immediately
 const FETCH_OPTS: RequestInit = { cache: 'no-store' }
 
+// ─── Interfaces ──────────────────────────────────────────────────────────────
+
 export interface RecentTrack {
   id: string
   name: string
@@ -30,6 +32,23 @@ export interface DJsResponse {
   data: ApiDJ[]
 }
 
+export interface ApiDJMix {
+  id: string
+  name: string
+  dj_names: string
+  image: string
+  total_play_count: number
+}
+
+export interface ApiGenre {
+  id: string
+  name: string
+  banner: string
+  created_at: string
+}
+
+// ─── Fetchers ─────────────────────────────────────────────────────────────────
+
 export async function getRecentMusic(): Promise<RecentTrack[]> {
   try {
     const res = await fetch(`${BASE_URL}/api/music/recent/`, FETCH_OPTS)
@@ -52,14 +71,6 @@ export async function getTopDJs(): Promise<ApiDJ[]> {
   }
 }
 
-export interface ApiDJMix {
-  id: string
-  name: string
-  dj_names: string
-  image: string
-  total_play_count: number
-}
-
 export async function getAllDJs(page = 1, pageSize = 10): Promise<DJsResponse> {
   try {
     const res = await fetch(
@@ -68,7 +79,7 @@ export async function getAllDJs(page = 1, pageSize = 10): Promise<DJsResponse> {
     )
     if (!res.ok) return { count: 0, next: null, previous: null, data: [] }
     const json = await res.json()
-    // Response shape: { count, next, previous, results: { data: [...] } }
+    // Handle both { data: [...] } and { results: { data: [...] } } shapes
     const data: ApiDJ[] = json?.results?.data ?? json?.data ?? []
     return {
       count: json?.count ?? data.length,
@@ -91,6 +102,19 @@ export async function getTopDJMixes(): Promise<ApiDJMix[]> {
     return []
   }
 }
+
+export async function getGenres(): Promise<ApiGenre[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/music/genres/`, FETCH_OPTS)
+    if (!res.ok) return []
+    const json = await res.json()
+    return json?.data ?? []
+  } catch {
+    return []
+  }
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 export function getImageUrl(path: string): string {
   if (!path) return ''
