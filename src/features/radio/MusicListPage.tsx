@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { ApiMusic, getImageUrl } from '@/lib/api'
+import { ApiMusic, getImageUrl } from '@/features/radio/api'
 
 // Music-type badge colours
 const BADGE_COLOURS: Record<string, string> = {

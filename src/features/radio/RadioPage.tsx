@@ -5,7 +5,7 @@ import {
   additionalSections,
   nowPlaying,
 } from './mockData'
-import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getImageUrl } from '@/lib/api'
+import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getImageUrl } from './api'
 import { MediaItem, DJ } from './types'
 import Link from 'next/link'
 import Sidebar from './components/Sidebar'

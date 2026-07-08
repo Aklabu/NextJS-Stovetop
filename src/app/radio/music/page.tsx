@@ -1,5 +1,5 @@
 import MusicListPage from '@/features/radio/MusicListPage'
-import { getAllMusic } from '@/lib/api'
+import { getAllMusic } from '@/features/radio/api'
 
 export const metadata = {
   title: 'All Music | Stovetop Radio',

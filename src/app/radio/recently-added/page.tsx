@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
-import { getRecentMusic, getImageUrl } from '@/lib/api'
+import { getRecentMusic, getImageUrl } from '@/features/radio/api'
 
 export const metadata = {
   title: 'Recently Added | Stovetop Radio',

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import MusicListPage from '@/features/radio/MusicListPage'
-import { getGenreDetail } from '@/lib/api'
+import { getGenreDetail } from '@/features/radio/api'
 
 const PAGE_SIZE = 20
 
