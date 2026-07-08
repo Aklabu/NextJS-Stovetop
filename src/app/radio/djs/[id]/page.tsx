@@ -11,7 +11,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params
-  const dj = await getDJDetail(id)
+  const dj = await getDJDetail(id, 1, 1)
   if (!dj) return { title: 'DJ | Stovetop Radio' }
   return {
     title: `${dj.name} | Stovetop Radio`,
@@ -24,15 +24,11 @@ export default async function DJDetailPage({ params, searchParams }: PageProps) 
   const sp = await searchParams
   const page = Math.max(1, parseInt(sp?.page ?? '1', 10))
 
-  const dj = await getDJDetail(id)
+  const dj = await getDJDetail(id, page, PAGE_SIZE)
   if (!dj) notFound()
 
-  // API returns all tracks in music_list — paginate client-side
-  const allTracks = dj.music_list ?? []
-  const count = dj.music_count ?? allTracks.length
+  const { count, next, previous, results: tracks } = dj.music
   const totalPages = count > 0 ? Math.ceil(count / PAGE_SIZE) : 0
-  const start = (page - 1) * PAGE_SIZE
-  const tracks = allTracks.slice(start, start + PAGE_SIZE)
 
   return (
     <MusicListPage
@@ -53,8 +49,8 @@ export default async function DJDetailPage({ params, searchParams }: PageProps) 
       count={count}
       page={page}
       totalPages={totalPages}
-      hasNext={page < totalPages}
-      hasPrevious={page > 1}
+      hasNext={!!next}
+      hasPrevious={!!previous}
       baseHref={`/radio/djs/${id}`}
       backHref="/radio/djs"
       backLabel="Back to All DJs"

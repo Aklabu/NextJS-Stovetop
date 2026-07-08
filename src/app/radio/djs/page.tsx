@@ -1,13 +1,14 @@
 import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { getAllDJs, getImageUrl } from '@/features/radio/api'
+import { buildPageWindow } from '@/features/radio/MusicListPage'
 
 export const metadata = {
   title: 'All DJs | Stovetop Radio',
   description: 'Browse all DJs on Stovetop Radio.',
 }
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 
 interface PageProps {
   searchParams: Promise<{ page?: string }>
@@ -17,7 +18,8 @@ export default async function AllDJsPage({ searchParams }: PageProps) {
   const params = await searchParams
   const page = Math.max(1, parseInt(params?.page ?? '1', 10))
 
-  const { count, data: djs } = await getAllDJs(page, PAGE_SIZE)
+  const { count, next, previous, data: djs } = await getAllDJs(page, PAGE_SIZE)
+  const totalPages = count > 0 ? Math.ceil(count / PAGE_SIZE) : 0
 
   return (
     <main className="bg-zinc-950 text-white min-h-screen px-6 md:px-16 py-12">
@@ -75,6 +77,72 @@ export default async function AllDJsPage({ searchParams }: PageProps) {
             <Link href="/radio" className="text-fuchsia-400 text-sm mt-4 inline-block hover:text-white">
               ← Back to Radio
             </Link>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            {/* Previous */}
+            {previous ? (
+              <Link
+                href={`/radio/djs?page=${page - 1}`}
+                aria-label="Previous page"
+                className="flex items-center justify-center w-9 h-9 rounded-lg border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Link>
+            ) : (
+              <span
+                aria-disabled="true"
+                className="flex items-center justify-center w-9 h-9 rounded-lg border border-zinc-800 text-zinc-600 cursor-not-allowed"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </span>
+            )}
+
+            {/* Page numbers */}
+            {buildPageWindow(page, totalPages).map((entry, idx) =>
+              entry === '...' ? (
+                <span
+                  key={`ellipsis-${idx}`}
+                  className="w-9 h-9 flex items-center justify-center text-zinc-500 text-sm"
+                >
+                  …
+                </span>
+              ) : (
+                <Link
+                  key={entry}
+                  href={`/radio/djs?page=${entry}`}
+                  aria-current={entry === page ? 'page' : undefined}
+                  className={`w-9 h-9 rounded-lg text-sm font-semibold flex items-center justify-center transition-colors ${
+                    entry === page
+                      ? 'bg-fuchsia-600 text-white'
+                      : 'border border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white'
+                  }`}
+                >
+                  {entry}
+                </Link>
+              )
+            )}
+
+            {/* Next */}
+            {next ? (
+              <Link
+                href={`/radio/djs?page=${page + 1}`}
+                aria-label="Next page"
+                className="flex items-center justify-center w-9 h-9 rounded-lg border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            ) : (
+              <span
+                aria-disabled="true"
+                className="flex items-center justify-center w-9 h-9 rounded-lg border border-zinc-800 text-zinc-600 cursor-not-allowed"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </span>
+            )}
           </div>
         )}
 

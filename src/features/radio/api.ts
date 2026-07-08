@@ -59,12 +59,22 @@ export interface ApiMusic {
 
 export interface ApiGenreDetail extends ApiGenre {
   music_count: number
-  music_list: ApiMusic[]
+  music: {
+    count: number
+    next: string | null
+    previous: string | null
+    results: ApiMusic[]
+  }
 }
 
 export interface ApiDJDetail extends ApiDJ {
   music_count: number
-  music_list: ApiMusic[]
+  music: {
+    count: number
+    next: string | null
+    previous: string | null
+    results: ApiMusic[]
+  }
 }
 
 export interface MusicListResponse {
@@ -171,9 +181,14 @@ export async function getGenres(): Promise<ApiGenre[]> {
   }
 }
 
-export async function getGenreDetail(id: string): Promise<ApiGenreDetail | null> {
+export async function getGenreDetail(
+  id: string,
+  page = 1,
+  pageSize = 20
+): Promise<ApiGenreDetail | null> {
   try {
     const { data: json } = await apiClient.get(`/api/music/genres/${id}/`, {
+      params: { page, page_size: pageSize },
       // @ts-expect-error – Next.js extended fetch options
       next: { revalidate: 0 },
     })
@@ -183,9 +198,14 @@ export async function getGenreDetail(id: string): Promise<ApiGenreDetail | null>
   }
 }
 
-export async function getDJDetail(id: string): Promise<ApiDJDetail | null> {
+export async function getDJDetail(
+  id: string,
+  page = 1,
+  pageSize = 20
+): Promise<ApiDJDetail | null> {
   try {
     const { data: json } = await apiClient.get(`/api/music/djs/${id}/`, {
+      params: { page, page_size: pageSize },
       // @ts-expect-error – Next.js extended fetch options
       next: { revalidate: 0 },
     })
