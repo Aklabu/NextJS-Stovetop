@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { getAdminPlaylists, getImageUrl } from '@/features/radio/api'
 
-const trending = [
+const staticTrending = [
   { id: '1', title: 'Golden Era', meta: '18 Tracks • Retro Funk', image: '/images/home/golden-era.png' },
   { id: '2', title: 'Neon Nights', meta: '24 Tracks • Cyberwave', image: '/images/home/neon-nights.png' },
   { id: '3', title: 'Deep Groove', meta: '15 Tracks • Minimal Techno', image: '/images/home/deep-groove.png' },
@@ -49,7 +50,18 @@ const footerLinks = {
   social: ['Instagram', 'YouTube Hub', 'SoundCloud', 'Twitter (X)'],
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const playlistsData = await getAdminPlaylists()
+
+  const trending = playlistsData.length > 0
+    ? playlistsData.slice(0, 5).map((pl) => ({
+        id: pl.id,
+        title: pl.name,
+        meta: `${pl.music_count} Track${pl.music_count !== 1 ? 's' : ''}${pl.description ? ` • ${pl.description}` : ''}`,
+        image: getImageUrl(pl.image),
+        href: `/radio/playlists/${pl.id}`,
+      }))
+    : staticTrending.map((item) => ({ ...item, href: '/radio' }))
   return (
     <main className="bg-black text-white">
 
@@ -111,14 +123,23 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
           {trending.map((item) => (
-            <Link key={item.id} href="/radio" className="group">
+            <Link key={item.id} href={item.href} className="group">
               <div className="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 mb-3">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                {item.image.startsWith('/images/') ? (
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3">
                   <h3 className="font-bold text-sm">{item.title}</h3>
