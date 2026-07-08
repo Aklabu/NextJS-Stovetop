@@ -62,6 +62,11 @@ export interface ApiGenreDetail extends ApiGenre {
   music_list: ApiMusic[]
 }
 
+export interface ApiDJDetail extends ApiDJ {
+  music_count: number
+  music_list: ApiMusic[]
+}
+
 export interface MusicListResponse {
   count: number
   next: string | null
@@ -169,6 +174,18 @@ export async function getGenres(): Promise<ApiGenre[]> {
 export async function getGenreDetail(id: string): Promise<ApiGenreDetail | null> {
   try {
     const { data: json } = await apiClient.get(`/api/music/genres/${id}/`, {
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    return json?.data ?? null
+  } catch {
+    return null
+  }
+}
+
+export async function getDJDetail(id: string): Promise<ApiDJDetail | null> {
+  try {
+    const { data: json } = await apiClient.get(`/api/music/djs/${id}/`, {
       // @ts-expect-error – Next.js extended fetch options
       next: { revalidate: 0 },
     })

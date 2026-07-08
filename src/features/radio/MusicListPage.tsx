@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ApiMusic, getImageUrl } from '@/features/radio/api'
@@ -52,6 +53,8 @@ export interface MusicListPageProps {
   title: string
   /** Optional subtitle / description */
   description?: string
+  /** Optional extra content rendered between eyebrow and title (e.g. DJ avatar) */
+  headerExtra?: React.ReactNode
   /** Tracks to render */
   tracks: ApiMusic[]
   /** Total track count (used for header copy) */
@@ -76,6 +79,7 @@ export default function MusicListPage({
   eyebrow,
   title,
   description,
+  headerExtra,
   tracks,
   count,
   page,
@@ -100,6 +104,7 @@ export default function MusicListPage({
 
         {/* Header */}
         <div className="mb-10">
+          {headerExtra && <div className="mb-4">{headerExtra}</div>}
           <p className="text-xs font-semibold tracking-wider text-fuchsia-400 uppercase mb-1">
             {eyebrow}
           </p>

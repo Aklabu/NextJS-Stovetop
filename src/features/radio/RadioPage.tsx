@@ -127,7 +127,7 @@ export default async function RadioPage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {topDJs.map((dj) => (
-                <DJCard key={dj.id} dj={dj} />
+                <DJCard key={dj.id} dj={dj} href={`/radio/djs/${dj.id}`} />
               ))}
             </div>
           </section>
