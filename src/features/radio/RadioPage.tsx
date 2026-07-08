@@ -1,13 +1,12 @@
 import {
   trendingPlaylists,
   genreTags,
-  topDJMixes,
   mashups,
   throwback,
   additionalSections,
   nowPlaying,
 } from './mockData'
-import { getRecentMusic, getTopDJs, getImageUrl } from '@/lib/api'
+import { getRecentMusic, getTopDJs, getTopDJMixes, getImageUrl } from '@/lib/api'
 import { MediaItem, DJ } from './types'
 import Link from 'next/link'
 import Sidebar from './components/Sidebar'
@@ -20,9 +19,10 @@ import { ChevronRight } from 'lucide-react'
 
 export default async function RadioPage() {
   // Fetch real data from API in parallel
-  const [recentTracks, topDJsData] = await Promise.all([
+  const [recentTracks, topDJsData, topMixesData] = await Promise.all([
     getRecentMusic(),
     getTopDJs(),
+    getTopDJMixes(),
   ])
 
   const recentlyAdded: MediaItem[] = recentTracks.length > 0
@@ -55,6 +55,22 @@ export default async function RadioPage() {
         { id: 'dj3', name: 'Mista Rello', role: 'Reggae Expert', gradient: 'from-zinc-600 to-zinc-800' },
         { id: 'dj4', name: 'DJ Dat Dat Dat', role: 'Hip Hop Guru', gradient: 'from-red-700 to-black' },
         { id: 'dj5', name: 'Blue Note', role: 'Jazz Fusion', gradient: 'from-zinc-700 to-zinc-900' },
+      ]
+
+  const topDJMixes: MediaItem[] = topMixesData.length > 0
+    ? topMixesData.map((mix) => ({
+        id: mix.id,
+        title: mix.name,
+        subtitle: mix.dj_names,
+        image: getImageUrl(mix.image),
+        gradient: 'from-zinc-700 to-zinc-900',
+      }))
+    : [
+        { id: 'mx1', title: 'Ultimate Groove Vol. 1', subtitle: 'Stovetop DJs', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'mx2', title: 'Techno Pulse', subtitle: 'DJ Ty Boogie', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'mx3', title: 'Summer Heatwave', subtitle: 'Mista Rello', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'mx4', title: 'Afrobeat Flow', subtitle: 'DJ Dat Dat Dat', gradient: 'from-zinc-700 to-zinc-900' },
+        { id: 'mx5', title: 'Late Night Chill', subtitle: 'Stovetop Tino', gradient: 'from-zinc-700 to-zinc-900' },
       ]
 
   return (
@@ -114,7 +130,7 @@ export default async function RadioPage() {
             seeAllHref="/radio/recently-added"
           />
 
-          {/* Top DJ Mixes */}
+          {/* Top DJ Mixes — live from API */}
           <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} />
 
           {/* Mashups */}

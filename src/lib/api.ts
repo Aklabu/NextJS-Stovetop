@@ -52,6 +52,14 @@ export async function getTopDJs(): Promise<ApiDJ[]> {
   }
 }
 
+export interface ApiDJMix {
+  id: string
+  name: string
+  dj_names: string
+  image: string
+  total_play_count: number
+}
+
 export async function getAllDJs(page = 1, pageSize = 10): Promise<DJsResponse> {
   try {
     const res = await fetch(
@@ -60,14 +68,27 @@ export async function getAllDJs(page = 1, pageSize = 10): Promise<DJsResponse> {
     )
     if (!res.ok) return { count: 0, next: null, previous: null, data: [] }
     const json = await res.json()
+    // Response shape: { count, next, previous, results: { data: [...] } }
+    const data: ApiDJ[] = json?.results?.data ?? json?.data ?? []
     return {
-      count: json?.count ?? 0,
+      count: json?.count ?? data.length,
       next: json?.next ?? null,
       previous: json?.previous ?? null,
-      data: json?.results?.data ?? [],
+      data,
     }
   } catch {
     return { count: 0, next: null, previous: null, data: [] }
+  }
+}
+
+export async function getTopDJMixes(): Promise<ApiDJMix[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/music/top-dj-mixes/`, FETCH_OPTS)
+    if (!res.ok) return []
+    const json = await res.json()
+    return json?.data ?? []
+  } catch {
+    return []
   }
 }
 
