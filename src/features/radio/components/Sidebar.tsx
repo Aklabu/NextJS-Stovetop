@@ -1,15 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Compass, Clock, LayoutGrid, Users, Disc3, Music2 } from 'lucide-react'
+import { Search, Compass, Music2, Layers, RotateCcw, Radio, Heart, Moon, Zap, Mic2, Palmtree } from 'lucide-react'
 
 const navItems = [
   { id: 'explore', label: 'Explore', icon: Compass },
-  { id: 'genre', label: 'Genre', icon: LayoutGrid },
-  { id: 'djs', label: 'All DJs', icon: Users },
-  { id: 'mixes', label: 'All DJ Mix', icon: Disc3 },
   { id: 'music', label: 'All Music', icon: Music2 },
-  { id: 'recent', label: 'Recently Added', icon: Clock },
+  { id: 'mashups', label: 'Mashups', icon: Layers },
+  { id: 'throwback', label: 'Throwback', icon: RotateCcw },
+  { id: 'rnb', label: 'R&B', icon: Radio },
+  { id: 'soul', label: 'Soul', icon: Heart },
+  { id: 'feel-good', label: 'Feel Good', icon: Zap },
+  { id: 'slow-jams', label: 'Slow Jams', icon: Moon },
+  { id: 'motivation', label: 'Motivation', icon: Zap },
+  { id: 'hip-hop', label: 'Hip Hop', icon: Mic2 },
+  { id: 'reggae', label: 'Reggae', icon: Palmtree },
 ]
 
 export default function Sidebar() {
@@ -52,12 +57,6 @@ export default function Sidebar() {
           )
         })}
       </nav>
-
-      <div className="mt-auto pt-6">
-        <button className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:opacity-90 transition-opacity">
-          Download the app
-        </button>
-      </div>
     </aside>
   )
 }

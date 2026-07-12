@@ -1,8 +1,4 @@
-import {
-  mashups,
-  throwback,
-  additionalSections,
-} from './mockData'
+
 import { getRecentMusic, getTopDJs, getTopDJMixes, getGenres, getAdminPlaylists, getImageUrl } from './api'
 import { MediaItem, DJ } from './types'
 import Link from 'next/link'
@@ -159,16 +155,7 @@ export default async function RadioPage() {
           {/* Top DJ Mixes — live from API */}
           <Section title="Top DJ Mixes" eyebrow="Curated Mixes" items={topDJMixes} seeAllHref="/radio/dj-mixes" />
 
-          {/* Mashups */}
-          <Section title="Mashups" items={mashups} />
 
-          {/* Throwback */}
-          <Section title="Throwback" eyebrow="Classics" items={throwback} />
-
-          {/* Additional genre sections */}
-          {additionalSections.map((s) => (
-            <Section key={s.id} title={s.title} items={s.items} />
-          ))}
         </div>
       </div>
 
