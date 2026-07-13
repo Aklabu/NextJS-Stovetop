@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, type FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Search, Compass, Music2, Layers, RotateCcw, Radio, Heart, Moon, Zap, Mic2, Palmtree } from 'lucide-react'
 
@@ -27,6 +28,15 @@ const navItems: NavItem[] = [
 
 export default function Sidebar() {
   const [active, setActive] = useState('explore')
+  const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function handleSearch(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const q = inputRef.current?.value.trim()
+    if (!q) return
+    router.push(`/radio/search?q=${encodeURIComponent(q)}`)
+  }
 
   return (
     <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-zinc-950 border-r border-zinc-900 h-screen sticky top-0 px-4 py-6">
@@ -37,14 +47,17 @@ export default function Sidebar() {
         <p className="text-xs text-zinc-500 mt-0.5">Live Sound Services</p>
       </div>
 
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+      {/* Search form */}
+      <form onSubmit={handleSearch} className="relative mb-6" role="search">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
         <input
-          type="text"
-          placeholder="Search..."
+          ref={inputRef}
+          type="search"
+          placeholder="Search music"
+          aria-label="Search music"
           className="w-full bg-zinc-900 text-sm text-zinc-200 placeholder-zinc-500 rounded-lg pl-9 pr-3 py-2.5 outline-none focus:ring-1 focus:ring-violet-500"
         />
-      </div>
+      </form>
 
       <nav className="flex flex-col gap-1">
         {navItems.map(({ id, label, icon: Icon, href }) => {

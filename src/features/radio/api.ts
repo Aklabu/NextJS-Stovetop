@@ -330,6 +330,27 @@ export async function getMusicDetail(id: string): Promise<ApiMusicDetail | null>
   }
 }
 
+export async function searchMusic(q: string, page = 1, pageSize = 20): Promise<MusicListResponse> {
+  if (!q.trim()) return { count: 0, next: null, previous: null, data: [] }
+  try {
+    const { data: json } = await apiClient.get('/api/music/search/', {
+      params: { q: q.trim(), page, page_size: pageSize },
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    // Response shape: { count, next, previous, results: { data: [...] } }
+    const data: ApiMusic[] = json?.results?.data ?? json?.data ?? []
+    return {
+      count: json?.count ?? data.length,
+      next: json?.next ?? null,
+      previous: json?.previous ?? null,
+      data,
+    }
+  } catch {
+    return { count: 0, next: null, previous: null, data: [] }
+  }
+}
+
 export async function incrementPlayCount(id: string): Promise<void> {
   try {
     await apiClient.post(`/api/music/${id}/play/`)
