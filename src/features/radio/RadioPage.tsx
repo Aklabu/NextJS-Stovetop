@@ -43,6 +43,7 @@ export default async function RadioPage() {
         subtitle: track.dj_name,
         image: getImageUrl(track.image),
         gradient: 'from-zinc-700 to-zinc-900',
+        href: `/radio/music/${track.id}`,
       }))
     : [
         { id: 'ra1', title: 'New Wave Mix', gradient: 'from-zinc-700 to-zinc-900' },
