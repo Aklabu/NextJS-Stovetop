@@ -1,11 +1,19 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Search, Compass, Music2, Layers, RotateCcw, Radio, Heart, Moon, Zap, Mic2, Palmtree } from 'lucide-react'
 
-const navItems = [
+interface NavItem {
+  id: string
+  label: string
+  icon: React.ElementType
+  href?: string
+}
+
+const navItems: NavItem[] = [
   { id: 'explore', label: 'Explore', icon: Compass },
-  { id: 'music', label: 'All Music', icon: Music2 },
+  { id: 'music', label: 'All Music', icon: Music2, href: '/radio/music' },
   { id: 'mashups', label: 'Mashups', icon: Layers },
   { id: 'throwback', label: 'Throwback', icon: RotateCcw },
   { id: 'rnb', label: 'R&B', icon: Radio },
@@ -39,17 +47,33 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex flex-col gap-1">
-        {navItems.map(({ id, label, icon: Icon }) => {
+        {navItems.map(({ id, label, icon: Icon, href }) => {
           const isActive = active === id
+          const className = `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            isActive
+              ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white'
+              : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
+          }`
+
+          if (href) {
+            return (
+              <Link
+                key={id}
+                href={href}
+                onClick={() => setActive(id)}
+                className={className}
+              >
+                <Icon className="w-4 h-4" />
+                {label}
+              </Link>
+            )
+          }
+
           return (
             <button
               key={id}
               onClick={() => setActive(id)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white'
-                  : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
-              }`}
+              className={className}
             >
               <Icon className="w-4 h-4" />
               {label}

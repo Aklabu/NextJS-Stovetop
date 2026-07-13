@@ -242,11 +242,12 @@ export async function getDJMixDetail(
 
 export async function getAllMusic(page = 1, pageSize = 20): Promise<MusicListResponse> {
   try {
-    const { data: json } = await apiClient.get('/api/music/tracks/', {
+    const { data: json } = await apiClient.get('/api/music/', {
       params: { page, page_size: pageSize },
       // @ts-expect-error – Next.js extended fetch options
       next: { revalidate: 0 },
     })
+    // Response shape: { count, next, previous, results: { data: [...] } }
     const data: ApiMusic[] = json?.results?.data ?? json?.data ?? []
     return {
       count: json?.count ?? data.length,
