@@ -15,15 +15,15 @@ interface NavItem {
 const navItems: NavItem[] = [
   { id: 'explore', label: 'Explore', icon: Compass },
   { id: 'music', label: 'All Music', icon: Music2, href: '/radio/music' },
-  { id: 'mashups', label: 'Mashups', icon: Layers },
-  { id: 'throwback', label: 'Throwback', icon: RotateCcw },
-  { id: 'rnb', label: 'R&B', icon: Radio },
-  { id: 'soul', label: 'Soul', icon: Heart },
-  { id: 'feel-good', label: 'Feel Good', icon: Zap },
-  { id: 'slow-jams', label: 'Slow Jams', icon: Moon },
-  { id: 'motivation', label: 'Motivation', icon: Zap },
-  { id: 'hip-hop', label: 'Hip Hop', icon: Mic2 },
-  { id: 'reggae', label: 'Reggae', icon: Palmtree },
+  { id: 'mashups', label: 'Mashups', icon: Layers, href: '/radio/collection/Mashups' },
+  { id: 'throwback', label: 'Throwback', icon: RotateCcw, href: '/radio/collection/Throwback' },
+  { id: 'rnb', label: 'R&B', icon: Radio, href: '/radio/collection/R%26B' },
+  { id: 'soul', label: 'Soul', icon: Heart, href: '/radio/collection/Soul' },
+  { id: 'feel-good', label: 'Feel Good', icon: Zap, href: '/radio/collection/Feel%20Good' },
+  { id: 'slow-jams', label: 'Slow Jams', icon: Moon, href: '/radio/collection/Slow%20Jams' },
+  { id: 'motivation', label: 'Motivation', icon: Zap, href: '/radio/collection/Motivation' },
+  { id: 'hip-hop', label: 'Hip Hop', icon: Mic2, href: '/radio/collection/Hip%20Hop' },
+  { id: 'reggae', label: 'Reggae', icon: Palmtree, href: '/radio/collection/Reggae' },
 ]
 
 export default function Sidebar() {

@@ -330,6 +330,80 @@ export async function getMusicDetail(id: string): Promise<ApiMusicDetail | null>
   }
 }
 
+// ─── Collection ───────────────────────────────────────────────────────────────
+
+export type CollectionSection =
+  | 'Mashups'
+  | 'Throwback'
+  | 'R&B'
+  | 'Soul'
+  | 'Feel Good'
+  | 'Slow Jams'
+  | 'Motivation'
+  | 'Hip Hop'
+  | 'Reggae'
+
+export interface CollectionFolder {
+  id: string
+  section: string
+  name: string
+  image: string
+  music_count: number
+  created_at: string
+}
+
+export interface CollectionSectionResponse {
+  section: string
+  folders: CollectionFolder[]
+}
+
+export interface CollectionFolderMusic {
+  id: number
+  music: ApiMusic
+  added_at: string
+}
+
+export interface CollectionFolderDetail {
+  id: string
+  section: string
+  name: string
+  image: string
+  music_count: number
+  music_list: CollectionFolderMusic[]
+  created_at: string
+}
+
+export async function getCollectionSection(
+  section: CollectionSection
+): Promise<CollectionSectionResponse | null> {
+  try {
+    const { data: json } = await apiClient.get(
+      `/api/collection/sections/${encodeURIComponent(section)}/`,
+      {
+        // @ts-expect-error – Next.js extended fetch options
+        next: { revalidate: 60 },
+      }
+    )
+    return json?.data ?? null
+  } catch {
+    return null
+  }
+}
+
+export async function getCollectionFolder(
+  id: string
+): Promise<CollectionFolderDetail | null> {
+  try {
+    const { data: json } = await apiClient.get(`/api/collection/folders/${id}/`, {
+      // @ts-expect-error – Next.js extended fetch options
+      next: { revalidate: 0 },
+    })
+    return json?.data ?? null
+  } catch {
+    return null
+  }
+}
+
 export async function searchMusic(q: string, page = 1, pageSize = 20): Promise<MusicListResponse> {
   if (!q.trim()) return { count: 0, next: null, previous: null, data: [] }
   try {
