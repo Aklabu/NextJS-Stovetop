@@ -92,7 +92,7 @@ export default async function RadioPage() {
 
       {/* Main scroll area */}
       <div className="flex-1 overflow-y-auto">
-        <div className="px-6 py-8 max-w-7xl mx-auto">
+        <div className="px-6 py-8 pb-24 lg:pb-8 max-w-7xl mx-auto">
           <TopBar />
 
           {/* Trending Playlists — live from API */}
