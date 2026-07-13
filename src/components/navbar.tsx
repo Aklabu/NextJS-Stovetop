@@ -96,10 +96,9 @@ export default function Navbar() {
         <div className="flex-1 lg:hidden" />
 
         {/* Download button — visible on desktop only */}
-        <button
-          type="button"
+        <Link
+          href="/download"
           aria-label="Download the app"
-          title="Download the app"
           className="hidden lg:flex shrink-0 items-center gap-2 px-4 py-2 rounded-full border border-white/20 text-gray-300 hover:text-white hover:border-white/40 transition-colors text-sm font-medium"
         >
           <svg
@@ -119,7 +118,7 @@ export default function Navbar() {
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
           Download
-        </button>
+        </Link>
 
         {/* Hamburger button — mobile only */}
         <button
@@ -172,8 +171,8 @@ export default function Navbar() {
 
               {/* Download inside mobile menu */}
               <li className="mt-2 pt-2 border-t border-white/10">
-                <button
-                  type="button"
+                <Link
+                  href="/download"
                   className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-white/20 text-gray-300 hover:text-white hover:border-white/40 transition-colors text-sm font-medium"
                 >
                   <svg
@@ -193,7 +192,7 @@ export default function Navbar() {
                     <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
                   Download the app
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
