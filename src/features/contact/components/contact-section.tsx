@@ -1,26 +1,42 @@
 'use client'
 
 import { useState } from 'react'
+import { submitContact, ContactFieldErrors, ContactErrorResponse } from '../api'
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({})
+  const [errorMessage, setErrorMessage] = useState('')
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    // Clear field error on change
+    if (fieldErrors[name as keyof ContactFieldErrors]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: undefined }))
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('sending')
+    setFieldErrors({})
+    setErrorMessage('')
+
     try {
-      await new Promise((res) => setTimeout(res, 1000))
+      await submitContact({ name: form.name, email: form.email, message: form.message })
       setStatus('sent')
       setForm({ name: '', email: '', message: '' })
-    } catch {
+    } catch (err: unknown) {
       setStatus('error')
+      const data = (err as { response?: { data?: ContactErrorResponse } })?.response?.data
+      if (data?.errors) {
+        setFieldErrors(data.errors)
+      }
+      setErrorMessage(data?.message ?? 'Something went wrong. Please try again.')
     }
   }
 
@@ -84,8 +100,13 @@ export default function ContactSection() {
                   placeholder="Your full name"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full bg-[#0d0d1a] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                  className={`w-full bg-[#0d0d1a] border rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors ${
+                    fieldErrors.name ? 'border-red-500' : 'border-white/10'
+                  }`}
                 />
+                {fieldErrors.name && (
+                  <p className="text-xs text-red-400" role="alert">{fieldErrors.name[0]}</p>
+                )}
               </div>
 
               {/* Email */}
@@ -101,8 +122,13 @@ export default function ContactSection() {
                   placeholder="email@example.com"
                   value={form.email}
                   onChange={handleChange}
-                  className="w-full bg-[#0d0d1a] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                  className={`w-full bg-[#0d0d1a] border rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors ${
+                    fieldErrors.email ? 'border-red-500' : 'border-white/10'
+                  }`}
                 />
+                {fieldErrors.email && (
+                  <p className="text-xs text-red-400" role="alert">{fieldErrors.email[0]}</p>
+                )}
               </div>
 
               {/* Message */}
@@ -118,8 +144,13 @@ export default function ContactSection() {
                   placeholder="How can we help you?"
                   value={form.message}
                   onChange={handleChange}
-                  className="w-full flex-1 bg-[#0d0d1a] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                  className={`w-full flex-1 bg-[#0d0d1a] border rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors resize-none ${
+                    fieldErrors.message ? 'border-red-500' : 'border-white/10'
+                  }`}
                 />
+                {fieldErrors.message && (
+                  <p className="text-xs text-red-400" role="alert">{fieldErrors.message[0]}</p>
+                )}
               </div>
 
               {/* Submit */}
@@ -136,9 +167,9 @@ export default function ContactSection() {
                   Message sent! We&apos;ll be in touch soon.
                 </p>
               )}
-              {status === 'error' && (
+              {status === 'error' && !Object.keys(fieldErrors).length && (
                 <p className="text-sm text-red-400 text-center" role="alert">
-                  Something went wrong. Please try again.
+                  {errorMessage}
                 </p>
               )}
             </form>
