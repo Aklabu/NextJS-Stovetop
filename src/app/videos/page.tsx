@@ -5,6 +5,12 @@ export const metadata = {
   description: 'Watch featured mixes, interviews, and live sets from Stovetop Radio.',
 }
 
-export default function Page() {
-  return <VideosPage />
+interface PageProps {
+  searchParams: Promise<{ page?: string }>
+}
+
+export default async function Page({ searchParams }: PageProps) {
+  const { page } = await searchParams
+  const pageNum = Math.max(1, parseInt(page ?? '1', 10))
+  return <VideosPage page={pageNum} />
 }
