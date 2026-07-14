@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getAdminPlaylists, getImageUrl } from '@/features/radio/api'
+import { getFeaturedVideos } from '@/features/videos/api'
+import HomeFeaturedVideoCard from './HomeFeaturedVideoCard'
 
 const staticTrending = [
   { id: '1', title: 'Golden Era', meta: '18 Tracks • Retro Funk', image: '/images/home/golden-era.png' },
@@ -51,7 +53,12 @@ const footerLinks = {
 }
 
 export default async function HomePage() {
-  const playlistsData = await getAdminPlaylists()
+  const [playlistsData, featuredVideosData] = await Promise.all([
+    getAdminPlaylists(),
+    getFeaturedVideos(),
+  ])
+  // Show at most 2 featured videos on the homepage
+  const homeFeaturedVideos = featuredVideosData.slice(0, 2)
 
   const trending = playlistsData.length > 0
     ? playlistsData.slice(0, 5).map((pl) => ({
@@ -280,28 +287,39 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {featuredVideos.map((video) => (
-            <Link
-              key={video.id}
-              href="/videos"
-              className="group relative aspect-video rounded-2xl overflow-hidden border border-white/10 block"
-            >
-              <Image
-                src={video.image}
-                alt={video.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-              <span className="absolute top-4 left-4 rounded bg-black/70 px-2 py-1 text-[10px] font-bold tracking-widest text-gray-200">
-                {video.tag}
-              </span>
-              <span className="absolute top-4 right-4 rounded bg-black/70 px-2 py-1 text-xs font-semibold">
-                {video.duration}
-              </span>
-              <h3 className="absolute bottom-5 left-5 text-lg font-bold">{video.title}</h3>
-            </Link>
-          ))}
+          {homeFeaturedVideos.length > 0
+            ? homeFeaturedVideos.map((video) => (
+                <HomeFeaturedVideoCard
+                  key={video.id}
+                  id={video.id}
+                  title={video.title}
+                  youtubeUrl={video.youtube_url}
+                />
+              ))
+            : /* fallback static cards */
+              featuredVideos.map((video) => (
+                <Link
+                  key={video.id}
+                  href="/videos"
+                  className="group relative aspect-video rounded-2xl overflow-hidden border border-white/10 block"
+                >
+                  <Image
+                    src={video.image}
+                    alt={video.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  <span className="absolute top-4 left-4 rounded bg-black/70 px-2 py-1 text-[10px] font-bold tracking-widest text-gray-200">
+                    {video.tag}
+                  </span>
+                  <span className="absolute top-4 right-4 rounded bg-black/70 px-2 py-1 text-xs font-semibold">
+                    {video.duration}
+                  </span>
+                  <h3 className="absolute bottom-5 left-5 text-lg font-bold">{video.title}</h3>
+                </Link>
+              ))
+          }
         </div>
       </section>
 
