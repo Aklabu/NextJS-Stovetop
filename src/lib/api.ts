@@ -1,12 +1,15 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'https://stovetopmusic.com'
+if (!process.env.NEXT_PUBLIC_API_BASE_URL) {
+  console.warn('[api] NEXT_PUBLIC_API_BASE_URL is not set. Requests may fail.')
+}
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
 
 /**
  * Shared Axios instance used by all feature API modules.
- * - baseURL is set from env so it can be overridden per environment.
- * - cache: 'no-store' equivalent is handled by setting the fetch cache
- *   option; for axios we disable any default adapter caching.
+ * - baseURL is driven entirely by the NEXT_PUBLIC_API_BASE_URL env variable.
+ * - Set it in .env.local (dev) or .env.production (prod) — no trailing slash.
  */
 const apiClient = axios.create({
   baseURL: BASE_URL,
