@@ -40,28 +40,14 @@ export default function Navbar() {
           className="flex items-center gap-3 shrink-0"
           aria-label="Stovetop Radio home"
         >
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 36 36"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect width="36" height="36" rx="6" fill="#1a2236" />
-            <text
-              x="50%"
-              y="55%"
-              dominantBaseline="middle"
-              textAnchor="middle"
-              fill="#4f8ef7"
-              fontSize="14"
-              fontWeight="700"
-              fontFamily="Arial, sans-serif"
-            >
-              SR
-            </text>
-          </svg>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo.png"
+            alt="Stovetop Radio"
+            width={64}
+            height={64}
+            className="rounded-md"
+          />
           <span className="text-white text-sm font-semibold leading-tight">
             Stovetop
             <br />
