@@ -225,10 +225,10 @@ export default async function HomePage() {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-black/40" />
-            <div className="absolute inset-0 flex items-center justify-center p-8">
-              <div className="text-center max-w-xs">
+            <div className="absolute inset-0 flex items-center justify-center px-6 py-8">
+              <div className="text-center w-full max-w-[260px] mx-auto">
                 <h3 className="text-2xl font-bold mb-3">Submit Your Tracks</h3>
-                <p className="text-gray-300 text-sm mb-6 leading-relaxed">
+                <p className="text-gray-300 text-sm mb-6 leading-relaxed break-words">
                   Join our rotation. We&apos;re looking for the next sound to break the floor.
                 </p>
                 <Link
@@ -247,13 +247,11 @@ export default async function HomePage() {
             </span>
             <h2 className="text-3xl font-extrabold mb-5">
               <span className="bg-gradient-to-r from-purple-300 to-cyan-300 bg-clip-text text-transparent">
-                Custom Playlist Curation
+                Featured Artists
               </span>
             </h2>
             <p className="text-gray-400 leading-relaxed mb-8">
-              Our expert DJs go beyond algorithms. We build bespoke sonic identities for brands,
-              hotels, and luxury retail spaces. Every track is hand-picked to match your
-              venue&apos;s DNA.
+              Become a featured artist and ensure that your song catches the listeners&apos; attention.
             </p>
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="rounded-xl border border-white/10 p-4">
@@ -269,7 +267,7 @@ export default async function HomePage() {
               href="/playlist"
               className="inline-flex items-center gap-1 text-sm font-semibold text-cyan-400 hover:gap-2 transition-all w-fit"
             >
-              Learn about Curation <span aria-hidden="true">→</span>
+              Learn more <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
