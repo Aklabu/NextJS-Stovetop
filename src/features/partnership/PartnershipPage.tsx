@@ -58,7 +58,7 @@ export default function PartnershipPage() {
           </p>
           <h2 className="text-4xl font-bold mb-6">Stovetop DJs</h2>
           <p className="text-gray-400 mb-8 leading-relaxed">
-            Come join one of the fastest growing DJ coalitions. Our primary
+            Come join one of the fastest growing DJ coalition. Our primary
             goal is to create opportunities not only for up and coming artists,
             but for DJs as well. We provide the platform; you provide the
             sound.

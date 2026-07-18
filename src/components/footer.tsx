@@ -124,7 +124,7 @@ export default function Footer() {
         {/* Divider + copyright */}
         <div className="border-t border-white/10 mt-8 pt-6">
           <p className="text-gray-500 text-xs">
-            © 2024 Stovetop Radio. All rights reserved.
+            © 2026 Stovetop Radio. All rights reserved.
           </p>
         </div>
       </div>

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getAdminPlaylists, getImageUrl } from '@/features/radio/api'
 import { getFeaturedVideos } from '@/features/videos/api'
 import HomeFeaturedVideoCard from './HomeFeaturedVideoCard'
+import PrecisionAudioServices from './PrecisionAudioServices'
 
 const staticTrending = [
   { id: '1', title: 'Golden Era', meta: '18 Tracks • Retro Funk', image: '/images/home/golden-era.png' },
@@ -12,40 +13,10 @@ const staticTrending = [
   { id: '5', title: 'Focus Mode', meta: '40 Tracks • Lofi Beats', image: '/images/home/focus-mode.png' },
 ]
 
-const tiers = [
-  {
-    id: 'small-bar',
-    title: 'Small Bar',
-    desc: 'Perfect for intimate venues needing high-quality sound that complements the atmosphere without overpowering conversation.',
-    features: ['Compact Sound System', 'Ambient Lighting'],
-    popular: false,
-  },
-  {
-    id: 'outdoor-concert',
-    title: 'Outdoor Concert',
-    desc: 'Massive power for large-scale events. Touring-grade equipment with full lighting rig and professional sound engineering team.',
-    features: ['10kW Line Array System', 'Full Stage Lighting & SFX'],
-    popular: true,
-  },
-  {
-    id: 'comedy-club',
-    title: 'Comedy Club',
-    desc: 'Clarity is king. We provide crystal-clear vocal reproduction and recording services for comedy venues and live podcasts.',
-    features: ['Vocal-Optimized EQ', 'Live Multitrack Recording'],
-    popular: false,
-  },
-]
-
 const featuredVideos = [
   { id: '1', title: 'Sonic Pulse Festival 2024', tag: 'LIVE PERFORMANCE', duration: '12:45', image: '/images/home/sonic-pulse-festival.png' },
   { id: '2', title: 'The Art of Sound Engineering', tag: 'BEHIND THE SOUND', duration: '18:20', image: '/images/home/behind-the-sound.png' },
 ]
-
-const tierImages: Record<string, string> = {
-  'small-bar': '/images/landing.jpg',
-  'outdoor-concert': '/images/live-sound-3.png',
-  'comedy-club': '/images/live-sound-1.png',
-}
 
 const footerLinks = {
   company: ['Our Story', 'Coalition Members', 'Live Services', 'Careers'],
@@ -159,59 +130,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── PRECISION AUDIO SERVICES ── */}
-      <section className="px-6 md:px-16 max-w-7xl mx-auto py-20 text-center">
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">Precision Audio Services</h2>
-        <p className="text-gray-400 mb-16">
-          Professional sound engineering for any environment. Starting at{' '}
-          <span className="text-white font-semibold">$75/hr</span>.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-          {tiers.map((tier) => (
-            <div
-              key={tier.id}
-              className={`relative rounded-2xl border overflow-hidden ${
-                tier.popular
-                  ? 'border-purple-400/60 bg-white/[0.03] md:-translate-y-4'
-                  : 'border-white/10 bg-white/[0.02]'
-              }`}
-            >
-              {tier.popular && (
-                <span className="absolute top-5 right-5 z-10 rounded-full bg-purple-500 px-3 py-1 text-[10px] font-bold tracking-widest">
-                  POPULAR
-                </span>
-              )}
-              <div className="relative aspect-[16/10]">
-                <Image
-                  src={tierImages[tier.id] ?? `/images/home/${tier.id}.png`}
-                  alt={tier.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-7">
-                <h3 className="text-xl font-bold mb-3">{tier.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-5">{tier.desc}</p>
-                <ul className="space-y-2 mb-7">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-gray-300">
-                      <span className="text-cyan-400" aria-hidden="true">✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  className={`w-full rounded-full py-3 text-sm font-semibold transition ${
-                    tier.popular
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90'
-                      : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                >
-                  Select Tier
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <PrecisionAudioServices />
 
       {/* ── CUSTOM PLAYLIST CURATION BANNER ── */}
       <section className="px-6 md:px-16 max-w-7xl mx-auto py-20">
