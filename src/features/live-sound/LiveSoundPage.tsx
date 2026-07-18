@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import PrecisionAudioServices from '@/features/home/PrecisionAudioServices'
 
 const versatilityCards = [
   {
@@ -48,18 +49,18 @@ export default function LiveSoundPage() {
             technical mastery and premium hardware to elevate every performance.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="rounded-full px-8 py-3 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
-              Get a Quote
-            </button>
-            <button className="rounded-full px-8 py-3 font-semibold border border-white/30 hover:bg-white/10 transition">
+            <a
+              href="#audio-versatility"
+              className="rounded-full px-8 py-3 font-semibold border border-white/30 hover:bg-white/10 transition"
+            >
               Explore Services
-            </button>
+            </a>
           </div>
         </div>
       </section>
 
       {/* ── AUDIO VERSATILITY ── */}
-      <section className="py-16 px-6 md:px-16 max-w-7xl mx-auto">
+      <section id="audio-versatility" className="py-16 px-6 md:px-16 max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl sm:text-5xl font-extrabold mb-4">
             Our Audio Versatility
@@ -139,6 +140,9 @@ export default function LiveSoundPage() {
 
         </div>
       </section>
+
+      {/* ── PRECISION AUDIO SERVICES ── */}
+      <PrecisionAudioServices />
 
     </main>
   )
