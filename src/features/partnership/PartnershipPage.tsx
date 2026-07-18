@@ -93,15 +93,18 @@ export default function PartnershipPage() {
             building an ecosystem where talent meets technical mastery.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <button className="rounded-full px-8 py-3 font-semibold text-white border border-white/40 hover:bg-white/10 transition">
+            <a
+              href="#stovetop-djs"
+              className="rounded-full px-8 py-3 font-semibold text-white border border-white/40 hover:bg-white/10 transition"
+            >
               View Roles
-            </button>
+            </a>
           </div>
         </div>
       </section>
 
       {/* ── STOVETOP DJS ── */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-6 md:px-16 py-24 max-w-7xl mx-auto">
+      <section id="stovetop-djs" className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-6 md:px-16 py-24 max-w-7xl mx-auto">
         <div>
           <p className="text-sm tracking-widest text-cyan-400 font-semibold mb-3">
             ARTISTS &amp; TALENT
