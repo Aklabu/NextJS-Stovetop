@@ -1,19 +1,72 @@
+'use client'
+
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState, useRef, useEffect } from 'react'
+
+const GMAIL_LINK =
+  'https://mail.google.com/mail/?view=cm&to=stovetopradio@gmail.com&su=Partnership%20Inquiry'
 
 const cards = [
   {
     img: '/images/Partnership-3.png',
     title: 'Videographer',
     desc: 'Travel to different cities capturing exclusive footage, and live streaming the hottest parties, events and social gatherings. Build a world-class portfolio.',
-    cta: 'Submit Portfolio',
   },
   {
     img: '/images/Partnership-4.png',
     title: 'Promotion Team',
     desc: 'Like, comment, repost and share recent stories, videos and photos. Receive free merchandise and exclusive VIP access to our premier events.',
-    cta: 'Join the Team',
   },
 ]
+
+function ContactDropdown({ label, className }: { label: string; className?: string }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  return (
+    <div ref={ref} className="relative inline-block">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className={className}
+      >
+        {label}
+        <span className="ml-2" aria-hidden="true">{open ? '▲' : '▼'}</span>
+      </button>
+
+      {open && (
+        <div className="absolute left-0 mt-2 w-52 rounded-xl border border-white/10 bg-zinc-900 shadow-xl z-50 overflow-hidden">
+          <a
+            href={GMAIL_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-5 py-4 text-sm font-semibold hover:bg-white/5 transition"
+          >
+            <span aria-hidden="true">✉️</span> Email Us
+          </a>
+          <Link
+            href="/contact"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-5 py-4 text-sm font-semibold hover:bg-white/5 transition border-t border-white/10"
+          >
+            <span aria-hidden="true">📞</span> Direct Contact
+          </Link>
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function PartnershipPage() {
   return (
@@ -40,9 +93,6 @@ export default function PartnershipPage() {
             building an ecosystem where talent meets technical mastery.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <button className="rounded-full px-8 py-3 font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
-              Apply Now
-            </button>
             <button className="rounded-full px-8 py-3 font-semibold text-white border border-white/40 hover:bg-white/10 transition">
               View Roles
             </button>
@@ -73,9 +123,10 @@ export default function PartnershipPage() {
               Brand Sponsorship Deals
             </li>
           </ul>
-          <button className="rounded-full px-8 py-3 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
-            Join the Coalition
-          </button>
+          <ContactDropdown
+            label="Join the Coalition"
+            className="rounded-full px-8 py-3 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition inline-flex items-center"
+          />
         </div>
         <div className="relative aspect-square rounded-2xl overflow-hidden border border-white/10">
           <Image
@@ -108,7 +159,7 @@ export default function PartnershipPage() {
               hosting your own podcast or radio show? If so, then contact us
               now to start your broadcast journey.
             </p>
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-4">
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                 <p className="text-xl mb-2">🎙️</p>
                 <p className="text-sm text-gray-200">Podcast Hosting</p>
@@ -118,9 +169,6 @@ export default function PartnershipPage() {
                 <p className="text-sm text-gray-200">Live FM Streaming</p>
               </div>
             </div>
-            <button className="rounded-full px-8 py-3 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
-              Apply for Radio
-            </button>
           </div>
         </div>
       </section>
@@ -138,13 +186,7 @@ export default function PartnershipPage() {
               />
             </div>
             <h3 className="text-2xl font-bold mb-3">{card.title}</h3>
-            <p className="text-gray-400 mb-4 leading-relaxed">{card.desc}</p>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-cyan-400 font-semibold hover:gap-3 transition-all"
-            >
-              {card.cta} <span aria-hidden="true">→</span>
-            </a>
+            <p className="text-gray-400 leading-relaxed">{card.desc}</p>
           </div>
         ))}
       </section>
@@ -158,9 +200,10 @@ export default function PartnershipPage() {
           We are always looking for visionary partners to push the boundaries
           of the nightlife industry.
         </p>
-        <button className="rounded-full px-10 py-4 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
-          Get In Touch
-        </button>
+        <ContactDropdown
+          label="Get In Touch"
+          className="rounded-full px-10 py-4 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition inline-flex items-center"
+        />
       </section>
     </main>
   )
