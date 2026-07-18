@@ -20,19 +20,19 @@ const benefits = [
 
 const curationFeatures = [
   {
-    icon: '🛡️',
-    title: 'Brand Identity',
-    desc: 'Music that aligns with your specific aesthetic.',
+    icon: '🎵',
+    title: 'Song Placement',
+    desc: 'We guarantee that your song will be placed near the top of the playlist.',
   },
   {
-    icon: '✨',
-    title: 'Event Vibe',
-    desc: 'Perfect soundtracks for parties, bars, or corporate spaces.',
+    icon: '🔊',
+    title: 'Sound Effects',
+    desc: 'High quality digital sounds that enhance your music.',
   },
   {
-    icon: '🎧',
-    title: 'AI-Assisted Precision',
-    desc: 'Blending expert DJ ears with listener preference data.',
+    icon: '🎤',
+    title: 'DJ Drops',
+    desc: 'Grab your listeners ears with high energy DJ Drops and shout outs.',
   },
 ]
 
@@ -78,6 +78,25 @@ const steps = [
   },
 ]
 
+const pricingOptions = [
+  {
+    id: 'single',
+    title: 'Single Upload',
+    price: '$25',
+    detail: '2 per submission',
+    desc: 'Your song will be uploaded to our Stovetop Radio playlist within 7 business days.',
+    href: 'https://support.2hotradio.com/music-approved-radio-2',
+  },
+  {
+    id: 'featured',
+    title: 'Featured Artist',
+    price: '$45',
+    detail: null,
+    desc: 'Your song will be uploaded to our Stovetop Radio playlist within 7 business days.',
+    href: 'https://support.2hotradio.com/music-approved-radio-2',
+  },
+]
+
 export default function PlaylistPage() {
   return (
     <main className="bg-black text-white">
@@ -102,9 +121,35 @@ export default function PlaylistPage() {
           <button className="rounded-full px-8 py-3 font-semibold bg-purple-300 text-black hover:bg-purple-200 transition">
             Submit Your Track
           </button>
-          <button className="rounded-full px-8 py-3 font-semibold border border-white/30 hover:bg-white/10 transition">
-            View Playlists
-          </button>
+          <a
+            href="/radio/djs"
+            className="rounded-full px-8 py-3 font-semibold border border-white/30 hover:bg-white/10 transition"
+          >
+            Featured Artist
+          </a>
+        </div>
+      </section>
+
+      {/* ── CUSTOM PLAYLIST CURATION ── */}
+      <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-teal-900/20 via-black to-black p-10 md:p-14">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-6">
+            Custom Playlist Curation
+          </h2>
+          <p className="text-gray-400 max-w-2xl leading-relaxed mb-12">
+            Beyond single submissions, we can tailor your songs with costume DJ
+            drops, sound effects and add them near the beginning of the DJs
+            playlist.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {curationFeatures.map((f) => (
+              <div key={f.title}>
+                <p className="text-xl mb-3" aria-hidden="true">{f.icon}</p>
+                <h3 className="font-bold mb-2">{f.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -124,45 +169,19 @@ export default function PlaylistPage() {
         ))}
       </section>
 
-      {/* ── CUSTOM PLAYLIST CURATION ── */}
-      <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-teal-900/20 via-black to-black p-10 md:p-14">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-6">
-            Custom Playlist Curation
-          </h2>
-          <p className="text-gray-400 max-w-2xl leading-relaxed mb-12">
-            Beyond single submissions, we build entire soundscapes tailored to
-            your brand, event, or personal vibe. Not only can you submit music,
-            we can create a whole playlist based on your preference.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
-            {curationFeatures.map((f) => (
-              <div key={f.title}>
-                <p className="text-xl mb-3" aria-hidden="true">{f.icon}</p>
-                <h3 className="font-bold mb-2">{f.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-          <button className="rounded-full px-8 py-3 font-semibold border border-purple-400/50 text-purple-300 hover:bg-purple-400/10 transition">
-            Request a Custom Playlist
-          </button>
-        </div>
-      </section>
-
-      {/* ── ACTIVE PLAYLISTS ── */}
+      {/* ── Featured Playlists ── */}
       <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
         <div className="flex items-end justify-between mb-10">
           <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-2">
-              Active Playlists
+              Featured Playlists
             </h2>
             <p className="text-gray-400">
               Choose the right vibe for your latest release
             </p>
           </div>
           <a
-            href="#"
+            href="/radio"
             className="hidden sm:inline-flex items-center gap-1 text-gray-300 hover:text-white text-sm font-semibold transition"
           >
             Browse all <span aria-hidden="true">›</span>
@@ -187,16 +206,45 @@ export default function PlaylistPage() {
                 </span>
               </div>
               <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between">
                   <h3 className="font-bold text-lg">{p.title}</h3>
                   <span className="flex items-center gap-1 text-xs text-gray-400 flex-shrink-0 ml-2">
                     <span aria-hidden="true">👥</span> {p.listeners}
                   </span>
                 </div>
-                <button className="w-full rounded-full py-2.5 text-sm font-semibold bg-white/10 hover:bg-white/20 transition">
-                  Submit to this Playlist
-                </button>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PRICING ── */}
+      <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+            Submission Options
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto">
+            Choose the plan that fits your goals. Your song will be uploaded to
+            our Stovetop Radio playlist within 7 business days.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          {pricingOptions.map((option) => (
+            <div
+              key={option.id}
+              className={`rounded-2xl border p-8 ${
+                option.id === 'featured'
+                  ? 'border-purple-400/50 bg-purple-900/10'
+                  : 'border-white/10 bg-white/[0.02]'
+              }`}
+            >
+              <h3 className="text-xl font-bold mb-1">{option.title}</h3>
+              {option.detail && (
+                <p className="text-sm text-gray-400 mb-4">{option.detail}</p>
+              )}
+              <p className="text-4xl font-extrabold mb-4">{option.price}</p>
+              <p className="text-gray-400 text-sm leading-relaxed">{option.desc}</p>
             </div>
           ))}
         </div>
