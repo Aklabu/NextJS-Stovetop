@@ -79,10 +79,23 @@ export default function BookInterviewPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  function buildGmailUrl() {
+    const format = formats.find((f) => f.id === selectedFormat)
+    const subject = encodeURIComponent('Interview Booking Request – Stovetop Radio')
+    const body = encodeURIComponent(
+      `Format: ${format?.title ?? selectedFormat}\n` +
+      `Full Name: ${form.fullName}\n` +
+      `Email: ${form.email}\n` +
+      `Date: ${form.date}\n` +
+      `Preferred Time (EST): ${form.time}\n` +
+      `Talking Points & Promotion Goals:\n${form.notes}`
+    )
+    return `https://mail.google.com/mail/?view=cm&to=stovetopradio@gmail.com&su=${subject}&body=${body}`
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    // TODO: wire up to your booking API / action
-    console.log({ format: selectedFormat, ...form })
+    window.open(buildGmailUrl(), '_blank', 'noopener,noreferrer')
   }
 
   return (
