@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 const benefits = [
   {
@@ -85,7 +86,6 @@ const pricingOptions = [
     price: '$25',
     detail: '2 per submission',
     desc: 'Your song will be uploaded to our Stovetop Radio playlist within 7 business days.',
-    href: 'https://support.2hotradio.com/music-approved-radio-2',
   },
   {
     id: 'featured',
@@ -93,9 +93,11 @@ const pricingOptions = [
     price: '$45',
     detail: null,
     desc: 'Your song will be uploaded to our Stovetop Radio playlist within 7 business days.',
-    href: 'https://support.2hotradio.com/music-approved-radio-2',
   },
 ]
+
+const GMAIL_LINK =
+  'https://mail.google.com/mail/?view=cm&to=stovetopradio@gmail.com&su=Track%20Submission'
 
 export default function PlaylistPage() {
   return (
@@ -118,15 +120,20 @@ export default function PlaylistPage() {
           selections.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="rounded-full px-8 py-3 font-semibold bg-purple-300 text-black hover:bg-purple-200 transition">
-            Submit Your Track
-          </button>
           <a
+            href={GMAIL_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full px-8 py-3 font-semibold bg-purple-300 text-black hover:bg-purple-200 transition"
+          >
+            Submit Your Track
+          </a>
+          <Link
             href="/radio/djs"
             className="rounded-full px-8 py-3 font-semibold border border-white/30 hover:bg-white/10 transition"
           >
             Featured Artist
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -143,8 +150,11 @@ export default function PlaylistPage() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {curationFeatures.map((f) => (
-              <div key={f.title}>
-                <p className="text-xl mb-3" aria-hidden="true">{f.icon}</p>
+              <div
+                key={f.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm"
+              >
+                <p className="text-2xl mb-3" aria-hidden="true">{f.icon}</p>
                 <h3 className="font-bold mb-2">{f.title}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">{f.desc}</p>
               </div>
@@ -169,7 +179,7 @@ export default function PlaylistPage() {
         ))}
       </section>
 
-      {/* ── Featured Playlists ── */}
+      {/* ── FEATURED PLAYLISTS ── */}
       <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -180,12 +190,12 @@ export default function PlaylistPage() {
               Choose the right vibe for your latest release
             </p>
           </div>
-          <a
+          <Link
             href="/radio"
             className="hidden sm:inline-flex items-center gap-1 text-gray-300 hover:text-white text-sm font-semibold transition"
           >
             Browse all <span aria-hidden="true">›</span>
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -218,7 +228,7 @@ export default function PlaylistPage() {
         </div>
       </section>
 
-      {/* ── PRICING ── */}
+      {/* ── SUBMISSION OPTIONS ── */}
       <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
@@ -277,9 +287,14 @@ export default function PlaylistPage() {
             </div>
           ))}
         </div>
-        <button className="rounded-full px-10 py-4 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
+        <a
+          href={GMAIL_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full px-10 py-4 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition"
+        >
           Start Your Submission
-        </button>
+        </a>
       </section>
 
     </main>
