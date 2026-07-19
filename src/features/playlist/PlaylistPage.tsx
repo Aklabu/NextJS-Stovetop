@@ -40,24 +40,24 @@ const curationFeatures = [
 const playlists = [
   {
     id: '1',
-    title: "90's Mixtape Flow",
-    tag: 'HIPHOP & R&B',
+    title: "In The Mix",
+    tag: 'HIPHOP, R&B, RAP Hits',
     listeners: '12.4k',
-    image: '/images/playlists/90s-mixtape-flow.jpg',
+    image: '/images/playlists/album-1.jpeg',
   },
   {
     id: '2',
-    title: 'Reggae Sunday',
+    title: 'Midwest Coast Muzik',
     tag: 'REGGAE & DANCEHALL',
     listeners: '8.2k',
-    image: '/images/playlists/reggae-sunday.jpg',
+    image: '/images/playlists/album-2.jpeg',
   },
   {
     id: '3',
-    title: 'James "Smitty" Smith',
+    title: 'Ear To The Streets',
     tag: 'CURATED SOUL',
     listeners: '15.1k',
-    image: '/images/playlists/james-smitty-smith.jpg',
+    image: '/images/playlists/album-3.jpeg',
   },
 ]
 
@@ -85,14 +85,14 @@ const pricingOptions = [
     title: 'Single Upload',
     price: '$25',
     detail: '2 per submission',
-    desc: 'Your song will be uploaded to our Stovetop Radio playlist within 7 business days.',
+    desc: 'YouTube, SoundCloud, Spotify link or MP3',
   },
   {
     id: 'featured',
     title: 'Featured Artist',
     price: '$45',
     detail: null,
-    desc: 'Your song will be uploaded to our Stovetop Radio playlist within 7 business days.',
+    desc: 'Song placed at the top of the playlist, DJ drops and Sound FX',
   },
 ]
 
@@ -129,7 +129,7 @@ export default function PlaylistPage() {
             Submit Your Track
           </a>
           <Link
-            href="/radio/djs"
+            href="#featured-artist"
             className="rounded-full px-8 py-3 font-semibold border border-white/30 hover:bg-white/10 transition"
           >
             Featured Artist
@@ -137,11 +137,11 @@ export default function PlaylistPage() {
         </div>
       </section>
 
-      {/* ── CUSTOM PLAYLIST CURATION ── */}
-      <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
+      {/* ── FEATURED ARTIST ── */}
+      <section id="featured-artist" className="px-6 md:px-16 max-w-7xl mx-auto pb-16 scroll-mt-24">
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-teal-900/20 via-black to-black p-10 md:p-14">
           <h2 className="text-3xl sm:text-4xl font-extrabold mb-6">
-            Custom Playlist Curation
+            Featured Artist
           </h2>
           <p className="text-gray-400 max-w-2xl leading-relaxed mb-12">
             Beyond single submissions, we can tailor your songs with costume DJ
