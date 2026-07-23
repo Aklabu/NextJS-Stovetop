@@ -102,7 +102,7 @@ export default function LiveSoundPage() {
             </h2>
             <p className="text-gray-400 mb-10 leading-relaxed max-w-md">
               We believe in straightforward pricing for high-end audio
-              engineering. No hidden equipment fees — just professional results.
+              engineering. Contact us for rates outside the local area.
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-4 border-l-2 border-cyan-400 bg-white/5 rounded-r-lg px-5 py-4">
@@ -132,9 +132,14 @@ export default function LiveSoundPage() {
               <p className="text-xs tracking-widest text-gray-300 font-semibold">
                 FULL SERVICE COVERAGE
               </p>
-              <button className="mt-2 rounded-full px-6 py-2.5 text-sm font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition">
+              <a
+                href="https://mail.google.com/mail/?view=cm&to=stovetopradio@gmail.com&su=Event%20Booking%20Request&body=Hi%2C%20I%20would%20like%20to%20book%20a%20live%20sound%20event."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 rounded-full px-6 py-2.5 text-sm font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition inline-block"
+              >
                 Book Your Event
-              </button>
+              </a>
             </div>
           </div>
 
