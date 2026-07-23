@@ -101,8 +101,7 @@ export default function PrecisionAudioServices() {
     <section className="px-6 md:px-16 max-w-7xl mx-auto py-20 text-center">
       <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">Precision Audio Services</h2>
       <p className="text-gray-400 mb-16">
-        Professional sound engineering for any environment. Starting at{' '}
-        <span className="text-white font-semibold">$75/hr</span>.
+        Professional sound engineering for any environment.
       </p>
 
       {/* ── TIER CARDS ── */}
@@ -126,8 +125,7 @@ export default function PrecisionAudioServices() {
             </div>
             <div className="p-7">
               <h3 className="text-xl font-bold mb-1">{tier.title}</h3>
-              <p className="text-sm text-gray-400 mb-1">{tier.guests}</p>
-              <p className="text-lg font-semibold text-cyan-300 mb-3">{tier.price}</p>
+              <p className="text-sm text-gray-400 mb-3">{tier.guests}</p>
               <p className="text-gray-400 text-sm leading-relaxed mb-5">{tier.desc}</p>
               <ul className="space-y-2">
                 {tier.features.map((f) => (
@@ -185,7 +183,6 @@ export default function PrecisionAudioServices() {
                     }`}
                   >
                     <p>{t.title}</p>
-                    <p className="text-xs text-cyan-300 mt-0.5">{t.price}</p>
                   </button>
                 ))}
               </div>
