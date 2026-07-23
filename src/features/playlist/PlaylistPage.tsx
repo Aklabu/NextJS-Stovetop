@@ -48,14 +48,14 @@ const playlists = [
   {
     id: '2',
     title: 'Midwest Coast Muzik',
-    tag: 'REGGAE & DANCEHALL',
+    tag: 'INDIE ARTISTS',
     listeners: '8.2k',
     image: '/images/playlists/album-2.jpeg',
   },
   {
     id: '3',
     title: 'Ear To The Streets',
-    tag: 'CURATED SOUL',
+    tag: 'PODCAST',
     listeners: '15.1k',
     image: '/images/playlists/album-3.jpeg',
   },
@@ -187,7 +187,7 @@ export default function PlaylistPage() {
               Featured Playlists
             </h2>
             <p className="text-gray-400">
-              Choose the right vibe for your latest release
+              Choose the right vibe for your latest release.
             </p>
           </div>
           <Link
