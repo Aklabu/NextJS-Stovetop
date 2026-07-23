@@ -76,10 +76,10 @@ export default async function HomePage() {
               Explore Music
             </Link>
             <Link
-              href="/live-sound"
+              href="/book-interview"
               className="rounded-full px-7 py-3 text-sm font-semibold border border-white/30 hover:bg-white/10 transition"
             >
-              Book Live Sound
+              Book An Interview
             </Link>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default async function HomePage() {
       <section className="px-6 md:px-16 max-w-7xl mx-auto py-20">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-extrabold mb-1">Trending Now</h2>
+            <h2 className="text-3xl font-extrabold mb-1">Stovetop Radio</h2>
             <p className="text-gray-400 text-sm">Curated vibrations for the modern ear.</p>
           </div>
           <Link
@@ -148,7 +148,7 @@ export default async function HomePage() {
               <div className="text-center w-full max-w-[260px] mx-auto">
                 <h3 className="text-2xl font-bold mb-3">Submit Your Tracks</h3>
                 <p className="text-gray-300 text-sm mb-6 leading-relaxed break-words">
-                  Join our rotation. We&apos;re looking for the next sound to break the floor.
+                  Join our rotation. We&apos;re looking for the next talented artists to introduce the world.
                 </p>
                 <Link
                   href="/playlist"
@@ -166,7 +166,7 @@ export default async function HomePage() {
             </span>
             <h2 className="text-3xl font-extrabold mb-5">
               <span className="bg-gradient-to-r from-purple-300 to-cyan-300 bg-clip-text text-transparent">
-                Featured Artists
+                Featured Artist
               </span>
             </h2>
             <p className="text-gray-400 leading-relaxed mb-8">

@@ -9,7 +9,7 @@ const tiers = [
   {
     id: 'small-venue',
     title: 'Small Venue',
-    guests: '100 guests max',
+    guests: '200 guests max',
     price: '$75.00 per hour',
     desc: 'Perfect for intimate venues needing high-quality sound that complements the atmosphere without overpowering conversation.',
     features: ['Compact Sound System', 'Karaoke Capability'],
@@ -32,7 +32,7 @@ const tiers = [
     guests: '400 guests max',
     price: '$85.00 per hour',
     desc: 'Clarity is king. We provide crystal-clear vocal reproduction and ground-shaking bass from our 4k-watt sound system.',
-    features: ['Vocal-Optimized EQ', 'Live Multitrack Recording'],
+    features: ['Vocal-Optimized EQ', 'Wireless Mic System'],
     popular: false,
     image: '/images/live-sound-1.png',
   },
