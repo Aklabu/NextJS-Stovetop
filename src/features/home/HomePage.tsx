@@ -55,7 +55,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-black/10" />
         <div className="relative z-10 px-6 md:px-16 max-w-xl">
           <span className="inline-block text-xs font-semibold tracking-widest text-gray-400 mb-4">
-            PREMIUM AUDIO SERVICES
+            MUSIC PRODUCTION & PROMOTION
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-6">
             Your Sound,{' '}
@@ -64,9 +64,7 @@ export default async function HomePage() {
             </span>
           </h1>
           <p className="text-gray-300 mb-8 leading-relaxed max-w-md">
-            Experience the pinnacle of audio-visual excellence. From underground
-            clubs to massive outdoor festivals, we deliver the sonic heartbeat of
-            the night.
+            Stovetop Music is a multifaceted production company with various outlets, including radio, videography, live entertainment, and more.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
