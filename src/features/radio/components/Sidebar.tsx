@@ -170,7 +170,7 @@ export default function Sidebar() {
           aria-label="More sections"
         >
           <MoreHorizontal className="w-5 h-5" />
-          More
+          Genres
         </button>
       </nav>
 
@@ -216,7 +216,7 @@ export default function Sidebar() {
           <div className="lg:hidden fixed bottom-16 inset-x-0 z-50 bg-zinc-950 border-t border-zinc-800 rounded-t-2xl px-4 pt-4 pb-6 max-h-[70vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider">
-                Browse Sections
+                Browse Genres
               </h2>
               <button
                 onClick={() => setDrawerOpen(false)}

@@ -64,7 +64,7 @@ export default async function HomePage() {
             </span>
           </h1>
           <p className="text-gray-300 mb-8 leading-relaxed max-w-md">
-            Stovetop Music is a multifaceted production company with various outlets, including radio, videography, live entertainment, and more.
+            Stovetop Music is a multifaceted production company with various outlets, including radio, videography, live sound, and more.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -88,7 +88,7 @@ export default async function HomePage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <h2 className="text-3xl font-extrabold mb-1">Stovetop Radio</h2>
-            <p className="text-gray-400 text-sm">Curated vibrations for the modern ear.</p>
+            <p className="text-gray-400 text-sm">Curated vibes from your Favorite DJs.</p>
           </div>
           <Link
             href="/radio"
