@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import PricingCards from './components/PricingCards'
 
 const benefits = [
   {
@@ -93,6 +94,20 @@ const pricingOptions = [
     price: '$45',
     detail: null,
     desc: 'Song placed at the top of the playlist, DJ drops and Sound FX',
+  },
+  {
+    id: 'interview-15',
+    title: 'Pre-Recorded Interview',
+    price: '$125',
+    detail: '15 Minutes',
+    desc: 'Includes Raw Video',
+  },
+  {
+    id: 'interview-30',
+    title: 'Pre-Recorded Interview',
+    price: '$225',
+    detail: '30 Minutes',
+    desc: 'Social clips built for Reels / TikTok / Shorts',
   },
 ]
 
@@ -239,25 +254,7 @@ export default function PlaylistPage() {
             our Stovetop Radio playlist within 7 business days.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {pricingOptions.map((option) => (
-            <div
-              key={option.id}
-              className={`rounded-2xl border p-8 ${
-                option.id === 'featured'
-                  ? 'border-purple-400/50 bg-purple-900/10'
-                  : 'border-white/10 bg-white/[0.02]'
-              }`}
-            >
-              <h3 className="text-xl font-bold mb-1">{option.title}</h3>
-              {option.detail && (
-                <p className="text-sm text-gray-400 mb-4">{option.detail}</p>
-              )}
-              <p className="text-4xl font-extrabold mb-4">{option.price}</p>
-              <p className="text-gray-400 text-sm leading-relaxed">{option.desc}</p>
-            </div>
-          ))}
-        </div>
+        <PricingCards options={pricingOptions} />
       </section>
 
       {/* ── HOW IT WORKS ── */}
