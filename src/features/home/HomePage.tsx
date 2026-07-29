@@ -46,7 +46,7 @@ export default async function HomePage() {
       {/* ── HERO ── */}
       <section className="relative h-[800px] w-full overflow-hidden flex items-center">
         <Image
-          src="/images/Partnership-1.png"
+          src="/images/home-hero.jpeg"
           alt="DJ performing for a large crowd with stage lighting"
           fill
           priority
