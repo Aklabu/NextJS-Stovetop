@@ -290,6 +290,44 @@ export default function BookInterviewPage() {
         </div>
       </section>
 
+      {/* ── INTERVIEW PRICING ── */}
+      <section className="px-6 md:px-16 max-w-7xl mx-auto pb-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-3">Interview Packages</h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-sm">
+            Choose the package that fits your promotion goals.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          {[
+            {
+              id: 'interview-15',
+              title: 'Pre-Recorded Interview',
+              detail: '15 Minutes',
+              price: '$125',
+              desc: 'Includes Raw Video',
+            },
+            {
+              id: 'interview-30',
+              title: 'Pre-Recorded Interview',
+              detail: '30 Minutes',
+              price: '$225',
+              desc: 'Social clips built for Reels / TikTok / Shorts',
+            },
+          ].map((pkg) => (
+            <div
+              key={pkg.id}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 hover:border-purple-400/50 hover:bg-purple-900/10 transition-all duration-200"
+            >
+              <h3 className="text-lg font-bold mb-1">{pkg.title}</h3>
+              <p className="text-sm text-gray-400 mb-3">{pkg.detail}</p>
+              <p className="text-4xl font-extrabold text-white mb-4">{pkg.price}</p>
+              <p className="text-gray-400 text-sm leading-relaxed">{pkg.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── STATS STRIP ── */}
       <section className="border-t border-white/10 px-6 md:px-16 max-w-7xl mx-auto py-14 grid grid-cols-1 sm:grid-cols-3 gap-10">
         {stats.map((s) => (

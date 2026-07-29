@@ -95,20 +95,6 @@ const pricingOptions = [
     detail: null,
     desc: 'Song placed at the top of the playlist, DJ drops and Sound FX',
   },
-  {
-    id: 'interview-15',
-    title: 'Pre-Recorded Interview',
-    price: '$125',
-    detail: '15 Minutes',
-    desc: 'Includes Raw Video',
-  },
-  {
-    id: 'interview-30',
-    title: 'Pre-Recorded Interview',
-    price: '$225',
-    detail: '30 Minutes',
-    desc: 'Social clips built for Reels / TikTok / Shorts',
-  },
 ]
 
 const GMAIL_LINK =
