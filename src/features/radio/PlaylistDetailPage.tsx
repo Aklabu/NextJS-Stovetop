@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
-import { getAdminPlaylists, getImageUrl, ApiMusic } from './api'
+import { getAdminPlaylistDetail, getImageUrl, ApiMusic } from './api'
 
 const BADGE_COLOURS: Record<string, string> = {
   mix: 'bg-violet-600/80',
@@ -19,8 +19,7 @@ interface PlaylistDetailPageProps {
 }
 
 export default async function PlaylistDetailPage({ id }: PlaylistDetailPageProps) {
-  const playlists = await getAdminPlaylists()
-  const playlist = playlists.find((p) => p.id === id)
+  const playlist = await getAdminPlaylistDetail(id)
   if (!playlist) notFound()
 
   const tracks: ApiMusic[] = playlist.music_list.map((pm) => pm.music)
