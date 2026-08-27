@@ -318,18 +318,6 @@ export async function getAdminPlaylists(): Promise<ApiAdminPlaylist[]> {
   }
 }
 
-export async function getAdminPlaylistDetail(id: string): Promise<ApiAdminPlaylist | null> {
-  try {
-    const { data: json } = await apiClient.get(`/api/playlists/admin/${id}/`, {
-      // @ts-expect-error – Next.js extended fetch options
-      next: { revalidate: 0 },
-    })
-    return json?.data ?? null
-  } catch {
-    return null
-  }
-}
-
 export async function getMusicDetail(id: string): Promise<ApiMusicDetail | null> {
   try {
     const { data: json } = await apiClient.get(`/api/music/${id}/`, {
