@@ -31,7 +31,7 @@ const stats = [
   },
   {
     icon: '⚡',
-    title: 'Live Distribution',
+    title: 'Music Review',
     desc: 'Simultaneous broadcast on Twitch, YouTube, and FM.',
   },
 ]
