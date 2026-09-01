@@ -22,7 +22,7 @@ const stats = [
   {
     icon: '👥',
     title: 'Global Reach',
-    desc: 'Average 50k weekly listeners across all digital streams.',
+    desc: 'Average 50k weekly Stovetop Radio listeners.',
   },
   {
     icon: '🎬',
@@ -305,7 +305,7 @@ export default function BookInterviewPage() {
               title: 'Pre-Recorded Interview',
               detail: '15 Minutes',
               price: '$125',
-              desc: 'Includes Raw Video',
+              desc: 'Includes Music Review',
             },
             {
               id: 'interview-30',
