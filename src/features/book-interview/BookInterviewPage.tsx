@@ -32,7 +32,7 @@ const stats = [
   {
     icon: '⚡',
     title: 'Music Review',
-    desc: 'Simultaneous broadcast on Twitch, YouTube, and FM.',
+    desc: 'Song of your choice reviewed live during interview.',
   },
 ]
 
