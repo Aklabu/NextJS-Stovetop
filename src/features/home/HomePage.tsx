@@ -243,7 +243,7 @@ export default async function HomePage() {
         <h2 className="text-4xl sm:text-5xl font-extrabold mb-6">Join the Coalition</h2>
         <p className="text-gray-400 max-w-xl mx-auto mb-10">
           Are you a DJ or Podcaster looking to push boundaries? Let&apos;s partner and
-          redefine the nightlife experience together.
+          redefine the radio experience together.
         </p>
         <Link
           href="/partnership"
