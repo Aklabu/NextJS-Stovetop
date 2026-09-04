@@ -89,7 +89,7 @@ export default function PartnershipPage() {
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-gray-200 text-lg">
-            Shape the Future of Nightlife with Stovetop DJs. We&apos;re
+            Shape the future of radio with Stovetop DJs. We&apos;re
             building an ecosystem where talent meets technical mastery.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -201,7 +201,7 @@ export default function PartnershipPage() {
         </h2>
         <p className="text-gray-400 max-w-xl mx-auto mb-10">
           We are always looking for visionary partners to push the boundaries
-          of the nightlife industry.
+          of the music industry.
         </p>
         <ContactDropdown
           label="Get In Touch"
