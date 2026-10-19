@@ -2,16 +2,20 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import {
+  submitInterviewBooking,
+  type InterviewBookingFieldErrors,
+} from './api'
 
 const formats = [
   {
-    id: 'in-studio',
+    id: 'in-studio' as const,
     icon: '📡',
     title: 'In-Studio Session',
     desc: 'High-fidelity recording at our main hub. Best for local artists and brand owners.',
   },
   {
-    id: 'zoom',
+    id: 'zoom' as const,
     icon: '🎥',
     title: 'Remote via Zoom',
     desc: 'Professional broadcast from anywhere in the world. High-quality digital patch.',
@@ -51,51 +55,99 @@ const prepSteps = [
   },
 ]
 
-const timeSlots = [
-  '09:00 AM',
-  '10:00 AM',
-  '11:00 AM',
-  '01:00 PM',
-  '02:00 PM',
-  '03:00 PM',
-  '04:00 PM',
-]
-
 export default function BookInterviewPage() {
-  const [selectedFormat, setSelectedFormat] = useState('in-studio')
+  const [selectedFormat, setSelectedFormat] = useState<'in-studio' | 'zoom'>('in-studio')
   const [form, setForm] = useState({
     fullName: '',
     email: '',
     date: '',
-    time: '09:00 AM',
+    time: '09:00',
     notes: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+  const [generalError, setGeneralError] = useState('')
+  const [errors, setErrors] = useState<InterviewBookingFieldErrors>({})
 
   function handleChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    // Clear errors when user starts typing
+    if (errors[name as keyof InterviewBookingFieldErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }))
+    }
+    if (generalError) {
+      setGeneralError('')
+    }
   }
 
-  function buildGmailUrl() {
-    const format = formats.find((f) => f.id === selectedFormat)
-    const subject = encodeURIComponent('Interview Booking Request – Stovetop Radio')
-    const body = encodeURIComponent(
-      `Format: ${format?.title ?? selectedFormat}\n` +
-      `Full Name: ${form.fullName}\n` +
-      `Email: ${form.email}\n` +
-      `Date: ${form.date}\n` +
-      `Preferred Time (EST): ${form.time}\n` +
-      `Talking Points & Promotion Goals:\n${form.notes}`
-    )
-    return `https://mail.google.com/mail/?view=cm&to=stovetopradio@gmail.com&su=${subject}&body=${body}`
-  }
-
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    window.open(buildGmailUrl(), '_blank', 'noopener,noreferrer')
+    
+    // Clear previous messages
+    setSuccessMessage('')
+    setGeneralError('')
+    setErrors({})
+    setIsSubmitting(true)
+
+    try {
+      console.log('Submitting interview booking:', {
+        name: form.fullName,
+        email: form.email,
+        date: form.date,
+        time: form.time,
+        format: selectedFormat,
+        notes: form.notes || undefined,
+      })
+
+      const response = await submitInterviewBooking({
+        name: form.fullName,
+        email: form.email,
+        date: form.date,
+        time: form.time,
+        format: selectedFormat,
+        notes: form.notes || undefined,
+      })
+
+      console.log('Success response:', response)
+
+      // Show success message
+      setSuccessMessage(response.message)
+      
+      // Reset form
+      setForm({
+        fullName: '',
+        email: '',
+        date: '',
+        time: '09:00',
+        notes: '',
+      })
+      setSelectedFormat('in-studio')
+    } catch (error: any) {
+      console.error('Interview booking error:', error)
+      console.error('Error response:', error.response)
+      
+      if (error.response?.data?.errors) {
+        // Handle validation errors from backend
+        console.log('Validation errors:', error.response.data.errors)
+        setErrors(error.response.data.errors)
+      } else if (error.response?.data?.message) {
+        // Handle error message from backend
+        setGeneralError(error.response.data.message)
+      } else if (error.message) {
+        // Handle network or other errors
+        setGeneralError(error.message)
+      } else {
+        // Fallback error
+        setGeneralError('An unexpected error occurred. Please try again.')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -182,6 +234,20 @@ export default function BookInterviewPage() {
 
           <h2 className="text-3xl font-bold mb-8">Scheduling Details</h2>
 
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-6 rounded-lg border border-green-500/20 bg-green-500/10 p-4">
+              <p className="text-sm text-green-400">{successMessage}</p>
+            </div>
+          )}
+
+          {/* General Error Message */}
+          {generalError && (
+            <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 p-4">
+              <p className="text-sm text-red-400">{generalError}</p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
@@ -198,8 +264,14 @@ export default function BookInterviewPage() {
                   value={form.fullName}
                   onChange={handleChange}
                   placeholder="e.g. DJ Starlight"
-                  className="w-full bg-white/5 border-b border-white/20 focus:border-cyan-400 outline-none py-2 text-white placeholder-gray-500 transition"
+                  className={`w-full bg-white/5 border-b ${
+                    errors.name ? 'border-red-500' : 'border-white/20 focus:border-cyan-400'
+                  } outline-none py-2 text-white placeholder-gray-500 transition`}
+                  required
                 />
+                {errors.name && (
+                  <p className="mt-1 text-xs text-red-400">{errors.name[0]}</p>
+                )}
               </div>
               <div>
                 <label
@@ -215,8 +287,14 @@ export default function BookInterviewPage() {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="name@example.com"
-                  className="w-full bg-white/5 border-b border-white/20 focus:border-cyan-400 outline-none py-2 text-white placeholder-gray-500 transition"
+                  className={`w-full bg-white/5 border-b ${
+                    errors.email ? 'border-red-500' : 'border-white/20 focus:border-cyan-400'
+                  } outline-none py-2 text-white placeholder-gray-500 transition`}
+                  required
                 />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-400">{errors.email[0]}</p>
+                )}
               </div>
               <div>
                 <label
@@ -231,29 +309,36 @@ export default function BookInterviewPage() {
                   name="date"
                   value={form.date}
                   onChange={handleChange}
-                  className="w-full bg-white/5 border-b border-white/20 focus:border-cyan-400 outline-none py-2 text-white [color-scheme:dark] transition"
+                  className={`w-full bg-white/5 border-b ${
+                    errors.date ? 'border-red-500' : 'border-white/20 focus:border-cyan-400'
+                  } outline-none py-2 text-white [color-scheme:dark] transition`}
+                  required
                 />
+                {errors.date && (
+                  <p className="mt-1 text-xs text-red-400">{errors.date[0]}</p>
+                )}
               </div>
               <div>
                 <label
                   htmlFor="time"
                   className="block text-xs font-semibold tracking-widest text-gray-400 mb-2"
                 >
-                  PREFERRED TIME (EST)
+                  PREFERRED TIME (24-HOUR FORMAT)
                 </label>
-                <select
+                <input
                   id="time"
+                  type="time"
                   name="time"
                   value={form.time}
                   onChange={handleChange}
-                  className="w-full bg-white/5 border-b border-white/20 focus:border-cyan-400 outline-none py-2 text-white transition"
-                >
-                  {timeSlots.map((t) => (
-                    <option key={t} value={t} className="bg-black">
-                      {t}
-                    </option>
-                  ))}
-                </select>
+                  className={`w-full bg-white/5 border-b ${
+                    errors.time ? 'border-red-500' : 'border-white/20 focus:border-cyan-400'
+                  } outline-none py-2 text-white [color-scheme:dark] transition`}
+                  required
+                />
+                {errors.time && (
+                  <p className="mt-1 text-xs text-red-400">{errors.time[0]}</p>
+                )}
               </div>
             </div>
 
@@ -271,15 +356,21 @@ export default function BookInterviewPage() {
                 onChange={handleChange}
                 rows={4}
                 placeholder="Tell us about your upcoming project or event..."
-                className="w-full bg-white/5 border-b border-white/20 focus:border-cyan-400 outline-none py-2 text-white placeholder-gray-500 resize-none transition"
+                className={`w-full bg-white/5 border-b ${
+                  errors.notes ? 'border-red-500' : 'border-white/20 focus:border-cyan-400'
+                } outline-none py-2 text-white placeholder-gray-500 resize-none transition`}
               />
+              {errors.notes && (
+                <p className="mt-1 text-xs text-red-400">{errors.notes[0]}</p>
+              )}
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-full py-4 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition"
+              disabled={isSubmitting}
+              className="w-full rounded-full py-4 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Confirm Interview Request
+              {isSubmitting ? 'Submitting...' : 'Confirm Interview Request'}
             </button>
 
             <p className="text-center text-xs text-gray-500">
