@@ -2,6 +2,10 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import {
+  submitServiceBooking,
+  type ServiceBookingFieldErrors,
+} from './api'
 
 const GENRES = ['R&B', 'Rap', 'Pop', 'Soul', 'Jazz', 'Reggae']
 
@@ -40,6 +44,7 @@ const tiers = [
 
 type FormState = {
   name: string
+  email: string
   date: string
   time: string
   location: string
@@ -50,6 +55,7 @@ type FormState = {
 
 const emptyForm: FormState = {
   name: '',
+  email: '',
   date: '',
   time: '',
   location: '',
@@ -61,6 +67,10 @@ const emptyForm: FormState = {
 export default function PrecisionAudioServices() {
   const [selectedTier, setSelectedTier] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(emptyForm)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+  const [generalError, setGeneralError] = useState('')
+  const [errors, setErrors] = useState<ServiceBookingFieldErrors>({})
 
   const activeTier = tiers.find((t) => t.id === selectedTier)
 
@@ -71,30 +81,89 @@ export default function PrecisionAudioServices() {
         ? prev.genres.filter((g) => g !== genre)
         : [...prev.genres, genre],
     }))
+    // Clear genre error when user selects/deselects
+    if (errors.genres) {
+      setErrors((prev) => ({ ...prev, genres: undefined }))
+    }
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    // Clear errors when user starts typing
+    if (errors[name as keyof ServiceBookingFieldErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }))
+    }
+    if (generalError) {
+      setGeneralError('')
+    }
   }
 
-  function buildGmailUrl() {
-    const subject = encodeURIComponent(`Booking Request – ${activeTier?.title ?? 'Audio Service'}`)
-    const body = encodeURIComponent(
-      `Tier: ${activeTier?.title ?? ''}\n` +
-      `Name: ${form.name}\n` +
-      `Date: ${form.date}\n` +
-      `Time: ${form.time}\n` +
-      `Location: ${form.location}\n` +
-      `Number of Guests: ${form.guests}\n` +
-      `Occasion: ${form.occasion}\n` +
-      `Genre of Music: ${form.genres.join(', ') || 'Not specified'}`
-    )
-    return `https://mail.google.com/mail/?view=cm&to=stovetopradio@gmail.com&su=${subject}&body=${body}`
-  }
-
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    window.open(buildGmailUrl(), '_blank', 'noopener,noreferrer')
+
+    if (!selectedTier) return
+
+    // Clear previous messages
+    setSuccessMessage('')
+    setGeneralError('')
+    setErrors({})
+    setIsSubmitting(true)
+
+    try {
+      console.log('Submitting service booking:', {
+        tier: selectedTier,
+        name: form.name,
+        email: form.email,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+        guests: Number(form.guests),
+        occasion: form.occasion,
+        genres: form.genres,
+      })
+
+      const response = await submitServiceBooking({
+        tier: selectedTier as 'small-venue' | 'medium-venue' | 'large-venue',
+        name: form.name,
+        email: form.email,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+        guests: Number(form.guests),
+        occasion: form.occasion,
+        genres: form.genres,
+      })
+
+      console.log('Success response:', response)
+
+      // Show success message
+      setSuccessMessage(response.message)
+
+      // Reset form
+      setForm(emptyForm)
+      setSelectedTier(null)
+    } catch (error: any) {
+      console.error('Service booking error:', error)
+      console.error('Error response:', error.response)
+
+      if (error.response?.data?.errors) {
+        // Handle validation errors from backend
+        console.log('Validation errors:', error.response.data.errors)
+        setErrors(error.response.data.errors)
+      } else if (error.response?.data?.message) {
+        // Handle error message from backend
+        setGeneralError(error.response.data.message)
+      } else if (error.message) {
+        // Handle network or other errors
+        setGeneralError(error.message)
+      } else {
+        // Fallback error
+        setGeneralError('An unexpected error occurred. Please try again.')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -158,13 +227,32 @@ export default function PrecisionAudioServices() {
               <p className="text-gray-400 text-sm mt-1">Fill in your details and we&apos;ll be in touch</p>
             </div>
             <button
-              onClick={() => setSelectedTier(null)}
+              onClick={() => {
+                setSelectedTier(null)
+                setSuccessMessage('')
+                setGeneralError('')
+                setErrors({})
+              }}
               className="text-gray-400 hover:text-white transition text-2xl leading-none"
               aria-label="Close form"
             >
               ×
             </button>
           </div>
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-6 rounded-lg border border-green-500/20 bg-green-500/10 p-4">
+              <p className="text-sm text-green-400">{successMessage}</p>
+            </div>
+          )}
+
+          {/* General Error Message */}
+          {generalError && (
+            <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 p-4">
+              <p className="text-sm text-red-400">{generalError}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Tier selector */}
@@ -175,7 +263,12 @@ export default function PrecisionAudioServices() {
                   <button
                     key={t.id}
                     type="button"
-                    onClick={() => setSelectedTier(t.id)}
+                    onClick={() => {
+                      setSelectedTier(t.id)
+                      if (errors.tier) {
+                        setErrors((prev) => ({ ...prev, tier: undefined }))
+                      }
+                    }}
                     className={`rounded-xl border px-4 py-3 text-sm font-semibold transition text-left ${
                       selectedTier === t.id
                         ? 'border-purple-400 bg-purple-500/10 text-white'
@@ -186,6 +279,9 @@ export default function PrecisionAudioServices() {
                   </button>
                 ))}
               </div>
+              {errors.tier && (
+                <p className="mt-1 text-xs text-red-400">{errors.tier[0]}</p>
+              )}
             </div>
             {/* Name */}
             <div>
@@ -198,8 +294,33 @@ export default function PrecisionAudioServices() {
                 placeholder="Your full name"
                 value={form.name}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 transition"
+                className={`w-full rounded-xl bg-white/5 border ${
+                  errors.name ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                } px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition`}
               />
+              {errors.name && (
+                <p className="mt-1 text-xs text-red-400">{errors.name[0]}</p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-semibold mb-1.5" htmlFor="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="your.email@example.com"
+                value={form.email}
+                onChange={handleChange}
+                className={`w-full rounded-xl bg-white/5 border ${
+                  errors.email ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                } px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition`}
+              />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-400">{errors.email[0]}</p>
+              )}
             </div>
 
             {/* Date + Time */}
@@ -213,8 +334,13 @@ export default function PrecisionAudioServices() {
                   required
                   value={form.date}
                   onChange={handleChange}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-400 transition"
+                  className={`w-full rounded-xl bg-white/5 border ${
+                    errors.date ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                  } px-4 py-3 text-sm text-white [color-scheme:dark] focus:outline-none transition`}
                 />
+                {errors.date && (
+                  <p className="mt-1 text-xs text-red-400">{errors.date[0]}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1.5" htmlFor="time">Time</label>
@@ -225,8 +351,13 @@ export default function PrecisionAudioServices() {
                   required
                   value={form.time}
                   onChange={handleChange}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-400 transition"
+                  className={`w-full rounded-xl bg-white/5 border ${
+                    errors.time ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                  } px-4 py-3 text-sm text-white [color-scheme:dark] focus:outline-none transition`}
                 />
+                {errors.time && (
+                  <p className="mt-1 text-xs text-red-400">{errors.time[0]}</p>
+                )}
               </div>
             </div>
 
@@ -241,8 +372,13 @@ export default function PrecisionAudioServices() {
                 placeholder="Venue address or city"
                 value={form.location}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 transition"
+                className={`w-full rounded-xl bg-white/5 border ${
+                  errors.location ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                } px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition`}
               />
+              {errors.location && (
+                <p className="mt-1 text-xs text-red-400">{errors.location[0]}</p>
+              )}
             </div>
 
             {/* Number of guests */}
@@ -257,8 +393,13 @@ export default function PrecisionAudioServices() {
                 placeholder="Estimated attendance"
                 value={form.guests}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 transition"
+                className={`w-full rounded-xl bg-white/5 border ${
+                  errors.guests ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                } px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition`}
               />
+              {errors.guests && (
+                <p className="mt-1 text-xs text-red-400">{errors.guests[0]}</p>
+              )}
             </div>
 
             {/* Occasion */}
@@ -272,8 +413,13 @@ export default function PrecisionAudioServices() {
                 placeholder="e.g. Birthday party, Wedding, Concert"
                 value={form.occasion}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 transition"
+                className={`w-full rounded-xl bg-white/5 border ${
+                  errors.occasion ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
+                } px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none transition`}
               />
+              {errors.occasion && (
+                <p className="mt-1 text-xs text-red-400">{errors.occasion[0]}</p>
+              )}
             </div>
 
             {/* Genre */}
@@ -313,13 +459,17 @@ export default function PrecisionAudioServices() {
                   </label>
                 ))}
               </div>
+              {errors.genres && (
+                <p className="mt-2 text-xs text-red-400">{errors.genres[0]}</p>
+              )}
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-full py-3.5 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition mt-2"
+              disabled={isSubmitting}
+              className="w-full rounded-full py-3.5 font-semibold bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 transition mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send Booking Request
+              {isSubmitting ? 'Submitting...' : 'Send Booking Request'}
             </button>
           </form>
         </div>
