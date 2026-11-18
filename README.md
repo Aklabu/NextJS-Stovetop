@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stovetop Music – Next.js Frontend
 
-## Getting Started
+The web frontend for [Stovetop Music](https://stovetopmusic.com) — a platform for streaming radio, playlists, and videos, with pages for live sound services, partnerships, and artist interviews. Built with Next.js and backed by a Django REST Framework API.
 
-First, run the development server:
+---
+
+## Features
+
+- **Radio** – Stream radio content organized by sections and folders.
+- **Playlists** – Browse and discover curated music playlists.
+- **Videos** – Watch video content from the platform.
+- **Live Sound** – Information and showcase of live sound services.
+- **Partnership** – Partner application and information page.
+- **Book an Interview** – Request or schedule an artist/media interview.
+- **Contact** – Contact form backed by the DRF API.
+- **Careers** – Open positions and opportunities.
+- **Download** – Links to the mobile app download.
+
+---
+
+## Tech Stack
+
+- **Framework** – Next.js 16 (App Router)
+- **Language** – TypeScript 5
+- **UI Library** – React 19
+- **Styling** – Tailwind CSS 4
+- **HTTP Client** – Axios
+- **Icons** – Lucide React
+- **Linting** – ESLint 9 with `eslint-config-next`
+- **Backend** – Django REST Framework (separate repository)
+- **Mobile App** – Flutter (published on Google Play)
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/           # Pages and API routes (Next.js App Router)
+├── components/    # Shared UI (Navbar, Footer)
+├── features/      # Feature-scoped components and logic
+└── lib/
+    └── api.ts     # Shared Axios instance
+public/
+└── images/        # Static assets
+```
+
+---
+
+## Installation & Setup
+
+**Prerequisites**
+
+- Node.js 18 or later
+- npm, yarn, or pnpm
+
+**Clone the repository**
+
+```bash
+git clone https://github.com/Aklabu/NextJS-Stovetop.git
+cd NextJS-Stovetop
+```
+
+**Install dependencies**
+
+```bash
+npm install
+```
+
+---
+
+## Environment Variables
+
+Copy the example file and fill in the values:
+
+```bash
+cp .env.example .env.local
+```
+
+`.env.example`:
+
+```env
+# Backend API Base URL — no trailing slash
+# Development: http://127.0.0.1:8000
+# Production:  https://api.stovetopmusic.com
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+```
+
+---
+
+## Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build & Production
 
-## Learn More
+```bash
+npm run build   # Build for production
+npm start       # Start the production server
+npm run lint    # Lint the codebase
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Mobile App
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The official Stovetop Music mobile app is built with Flutter and available on the Google Play Store:
 
-## Deploy on Vercel
+[Download on Google Play](https://play.google.com/store/apps/details?id=com.app.stovetopmusic&hl=en)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License & Author
+
+**Md. Joni Akter Labu**
+
+- GitHub: [github.com/Aklabu](https://github.com/Aklabu)
+- LinkedIn: [linkedin.com/in/joniakterlabu](https://www.linkedin.com/in/joniakterlabu/)
+
+This project is private. All rights reserved.
